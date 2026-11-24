@@ -31,8 +31,19 @@
         </div>
 
         <div class="ion-padding">
-          <h1>{{ recette.nom }}</h1>
-          <h2 class="ion-text-primary">{{ recette.nomMg }}</h2>
+          <div class="header-row">
+            <div class="title-section">
+              <h1>{{ recette.nom }}</h1>
+              <h2 v-if="recette.nomMg !== recette.nom" class="ion-text-primary nom-mg">{{ recette.nomMg }}</h2>
+            </div>
+            <ion-button
+              :color="estFavori(recette.id) ? 'danger' : 'medium'"
+              fill="clear"
+              @click="toggleFavori(recette.id)"
+            >
+              <ion-icon :icon="estFavori(recette.id) ? heart : heartOutline" />
+            </ion-button>
+          </div>
           <p class="region-badge">{{ recette.region }}</p>
 
           <div class="meta-info">
@@ -70,13 +81,16 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonBackButton, IonText, IonButton, IonSpinner, IonList, IonItem, IonLabel
+  IonButtons, IonBackButton, IonText, IonButton, IonSpinner, IonList, IonItem, IonLabel, IonIcon
 } from '@ionic/vue';
+import { heart, heartOutline } from 'ionicons/icons';
 import api from '@/services/api';
 import { formatAr } from '@/utils/format';
 import type { Recette } from '@/types/recette';
+import { useFavoris } from '@/composables/useFavoris';
 
 const route = useRoute();
+const { estFavori, toggleFavori } = useFavoris();
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const recette = ref<Recette | null>(null);
@@ -90,7 +104,12 @@ async function charger() {
     const id = route.params.id as string;
     recette.value = await api.recetteParId(id);
   } catch (e: unknown) {
-    erreur.value = "Impossible de charger la recette.";
+    const err = e as { statut?: number; message?: string };
+    if (err.statut === 404) {
+      erreur.value = "Recette introuvable.";
+    } else {
+      erreur.value = "Impossible de charger la recette.";
+    }
     console.error(e);
   } finally {
     chargement.value = false;
@@ -144,6 +163,22 @@ h1 {
 h2 {
   font-size: 1.3em;
   margin: 0 0 12px 0;
+}
+
+.nom-mg {
+  font-style: italic;
+  font-weight: normal;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.title-section {
+  flex: 1;
 }
 
 h3 {

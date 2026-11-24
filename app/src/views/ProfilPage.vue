@@ -16,6 +16,24 @@
         <p class="uid">ID: {{ user.uid }}</p>
       </div>
 
+      <div v-if="user" class="favorites-section ion-margin-top">
+        <h3>Mes favoris ({{ listeFavoris.length }})</h3>
+        <ion-list v-if="listeFavoris.length > 0">
+          <ion-item
+            v-for="recetteId in listeFavoris"
+            :key="recetteId"
+            :router-link="`/recette/${recetteId}`"
+            button
+          >
+            <ion-icon :icon="heart" color="danger" slot="start" />
+            <ion-label>Recette #{{ recetteId }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-text v-else color="medium">
+          <p>Aucun favori pour le moment.</p>
+        </ion-text>
+      </div>
+
       <ion-button
         expand="block"
         color="danger"
@@ -33,9 +51,9 @@
 import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButton, IonIcon
+  IonButton, IonIcon, IonList, IonItem, IonLabel, IonText
 } from '@ionic/vue';
-import { personCircleOutline, logOutOutline } from 'ionicons/icons';
+import { personCircleOutline, logOutOutline, heart } from 'ionicons/icons';
 import { useAuth } from '@/composables/useAuth';
 import { toastController } from '@ionic/vue';
 

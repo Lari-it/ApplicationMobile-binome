@@ -6,13 +6,34 @@
     "region": "Merina",
     "description": "Le romazava est le plat national malagasy. C'est un bouillon de brèdes (anana) avec du zébu, souvent accompagné de riz.",
     "ingredients": [
-      { "nom": "Brèdes (anana)", "quantite": "500g" },
-      { "nom": "Viande de zébu", "quantite": "300g" },
-      { "nom": "Oignon", "quantite": "2" },
-      { "nom": "Ail", "quantite": "3 gousses" },
-      { "nom": "Gingembre", "quantite": "1 morceau" },
-      { "nom": "Huile", "quantite": "3 cuillères à soupe" },
-      { "nom": "Eau", "quantite": "1L" }
+      {
+        "nom": "Brèdes (anana)",
+        "quantite": "500g"
+      },
+      {
+        "nom": "Viande de zébu",
+        "quantite": "300g"
+      },
+      {
+        "nom": "Oignon",
+        "quantite": "2"
+      },
+      {
+        "nom": "Ail",
+        "quantite": "3 gousses"
+      },
+      {
+        "nom": "Gingembre",
+        "quantite": "1 morceau"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "3 cuillères à soupe"
+      },
+      {
+        "nom": "Eau",
+        "quantite": "1L"
+      }
     ],
     "etapes": [
       "Couper la viande en morceaux et la faire revenir dans l'huile avec les oignons, l'ail et le gingembre.",
@@ -34,12 +55,30 @@
     "region": "Betsileo",
     "description": "Le ravitoto est un plat à base de feuilles de manioc pilées, généralement accompagné de porc ou de zébu.",
     "ingredients": [
-      { "nom": "Feuilles de manioc pilées (ravitoto)", "quantite": "500g" },
-      { "nom": "Porc ou zébu", "quantite": "400g" },
-      { "nom": "Oignon", "quantite": "2" },
-      { "nom": "Ail", "quantite": "4 gousses" },
-      { "nom": "Huile", "quantite": "4 cuillères à soupe" },
-      { "nom": "Eau", "quantite": "500ml" }
+      {
+        "nom": "Feuilles de manioc pilées (ravitoto)",
+        "quantite": "500g"
+      },
+      {
+        "nom": "Porc ou zébu",
+        "quantite": "400g"
+      },
+      {
+        "nom": "Oignon",
+        "quantite": "2"
+      },
+      {
+        "nom": "Ail",
+        "quantite": "4 gousses"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "4 cuillères à soupe"
+      },
+      {
+        "nom": "Eau",
+        "quantite": "500ml"
+      }
     ],
     "etapes": [
       "Faire revenir la viande dans l'huile avec les oignons et l'ail.",
@@ -61,13 +100,34 @@
     "region": "Sakalava",
     "description": "Le poulet au lait de coco est un plat délicieux et crémeux, originaire de la région sakalava.",
     "ingredients": [
-      { "nom": "Poulet", "quantite": "1 entier" },
-      { "nom": "Lait de coco", "quantite": "400ml" },
-      { "nom": "Oignon", "quantite": "2" },
-      { "nom": "Ail", "quantite": "3 gousses" },
-      { "nom": "Gingembre", "quantite": "1 morceau" },
-      { "nom": "Curry", "quantite": "1 cuillère à café" },
-      { "nom": "Huile", "quantite": "3 cuillères à soupe" }
+      {
+        "nom": "Poulet",
+        "quantite": "1 entier"
+      },
+      {
+        "nom": "Lait de coco",
+        "quantite": "400ml"
+      },
+      {
+        "nom": "Oignon",
+        "quantite": "2"
+      },
+      {
+        "nom": "Ail",
+        "quantite": "3 gousses"
+      },
+      {
+        "nom": "Gingembre",
+        "quantite": "1 morceau"
+      },
+      {
+        "nom": "Curry",
+        "quantite": "1 cuillère à café"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "3 cuillères à soupe"
+      }
     ],
     "etapes": [
       "Couper le poulet en morceaux.",
@@ -89,11 +149,26 @@
     "region": "Merina",
     "description": "Le kitoza est du porc séché et fumé, grillé et servi avec des légumes ou du riz.",
     "ingredients": [
-      { "nom": "Kitoza (porc séché)", "quantite": "300g" },
-      { "nom": "Tomates", "quantite": "3" },
-      { "nom": "Oignon", "quantite": "2" },
-      { "nom": "Poivron", "quantite": "1" },
-      { "nom": "Huile", "quantite": "2 cuillères à soupe" }
+      {
+        "nom": "Kitoza (porc séché)",
+        "quantite": "300g"
+      },
+      {
+        "nom": "Tomates",
+        "quantite": "3"
+      },
+      {
+        "nom": "Oignon",
+        "quantite": "2"
+      },
+      {
+        "nom": "Poivron",
+        "quantite": "1"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "2 cuillères à soupe"
+      }
     ],
     "etapes": [
       "Couper le kitoza en tranches.",
@@ -115,13 +190,34 @@
     "region": "Betsimisaraka",
     "description": "Le lasary est une salade de légumes marinés dans du vinaigre, souvent accompagnée de crevettes séchées.",
     "ingredients": [
-      { "nom": "Chou", "quantite": "1/2" },
-      { "nom": "Carottes", "quantite": "2" },
-      { "nom": "Concombre", "quantite": "1" },
-      { "nom": "Tomates", "quantite": "2" },
-      { "nom": "Vinaigre", "quantite": "100ml" },
-      { "nom": "Huile", "quantite": "3 cuillères à soupe" },
-      { "nom": "Sel et poivre", "quantite": "selon goût" }
+      {
+        "nom": "Chou",
+        "quantite": "1/2"
+      },
+      {
+        "nom": "Carottes",
+        "quantite": "2"
+      },
+      {
+        "nom": "Concombre",
+        "quantite": "1"
+      },
+      {
+        "nom": "Tomates",
+        "quantite": "2"
+      },
+      {
+        "nom": "Vinaigre",
+        "quantite": "100ml"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "3 cuillères à soupe"
+      },
+      {
+        "nom": "Sel et poivre",
+        "quantite": "selon goût"
+      }
     ],
     "etapes": [
       "Couper tous les légumes en fines lamelles.",
@@ -143,11 +239,26 @@
     "region": "Merina",
     "description": "Le mofo gasy est une galette de riz fermentée, souvent consommée au petit-déjeuner avec du café.",
     "ingredients": [
-      { "nom": "Riz", "quantite": "500g" },
-      { "nom": "Levure", "quantite": "10g" },
-      { "nom": "Sucre", "quantite": "100g" },
-      { "nom": "Eau", "quantite": "300ml" },
-      { "nom": "Huile", "quantite": "pour la cuisson" }
+      {
+        "nom": "Riz",
+        "quantite": "500g"
+      },
+      {
+        "nom": "Levure",
+        "quantite": "10g"
+      },
+      {
+        "nom": "Sucre",
+        "quantite": "100g"
+      },
+      {
+        "nom": "Eau",
+        "quantite": "300ml"
+      },
+      {
+        "nom": "Huile",
+        "quantite": "pour la cuisson"
+      }
     ],
     "etapes": [
       "Faire tremper le riz dans l'eau pendant 24 heures.",
@@ -156,10 +267,31 @@
       "Laisser fermenter 4 heures.",
       "Cuire des petites galettes dans une poêle huilée."
     ],
-    "tempsMin": 1440,
+    "tempsMin": 30,
     "coutAr": 5000,
     "imageUrl": "",
     "auteurId": "system",
     "createdAt": 1700000500000
+  },
+  {
+    "id": "1795520813358",
+    "nom": "ufjkhkukvvh",
+    "nomMg": ";ublkjbkljhblkhj",
+    "region": "Antandroy",
+    "description": ";kjblkjblkjb jkn",
+    "ingredients": [
+      {
+        "nom": "oihouhuobj",
+        "quantite": "66"
+      }
+    ],
+    "etapes": [
+      "liuggoiuyviuvk"
+    ],
+    "tempsMin": 40,
+    "coutAr": 7000,
+    "imageUrl": "/uploads/1795520813343-564014997.png",
+    "auteurId": "1795519151156",
+    "createdAt": 1795520813358
   }
 ]
