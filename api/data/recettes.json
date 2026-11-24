@@ -1,0 +1,165 @@
+[
+  {
+    "id": "1",
+    "nom": "Romazava",
+    "nomMg": "Romazava",
+    "region": "Merina",
+    "description": "Le romazava est le plat national malagasy. C'est un bouillon de brèdes (anana) avec du zébu, souvent accompagné de riz.",
+    "ingredients": [
+      { "nom": "Brèdes (anana)", "quantite": "500g" },
+      { "nom": "Viande de zébu", "quantite": "300g" },
+      { "nom": "Oignon", "quantite": "2" },
+      { "nom": "Ail", "quantite": "3 gousses" },
+      { "nom": "Gingembre", "quantite": "1 morceau" },
+      { "nom": "Huile", "quantite": "3 cuillères à soupe" },
+      { "nom": "Eau", "quantite": "1L" }
+    ],
+    "etapes": [
+      "Couper la viande en morceaux et la faire revenir dans l'huile avec les oignons, l'ail et le gingembre.",
+      "Ajouter de l'eau et laisser cuire 30 minutes.",
+      "Ajouter les brèdes lavées et coupées.",
+      "Laisser mijoter 15 minutes jusqu'à ce que les brèdes soient tendres.",
+      "Servir chaud avec du riz."
+    ],
+    "tempsMin": 60,
+    "coutAr": 15000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000000000
+  },
+  {
+    "id": "2",
+    "nom": "Ravitoto",
+    "nomMg": "Ravitoto",
+    "region": "Betsileo",
+    "description": "Le ravitoto est un plat à base de feuilles de manioc pilées, généralement accompagné de porc ou de zébu.",
+    "ingredients": [
+      { "nom": "Feuilles de manioc pilées (ravitoto)", "quantite": "500g" },
+      { "nom": "Porc ou zébu", "quantite": "400g" },
+      { "nom": "Oignon", "quantite": "2" },
+      { "nom": "Ail", "quantite": "4 gousses" },
+      { "nom": "Huile", "quantite": "4 cuillères à soupe" },
+      { "nom": "Eau", "quantite": "500ml" }
+    ],
+    "etapes": [
+      "Faire revenir la viande dans l'huile avec les oignons et l'ail.",
+      "Ajouter un peu d'eau et laisser cuire 20 minutes.",
+      "Ajouter le ravitoto et mélanger bien.",
+      "Laisser cuire à feu doux 25 minutes en remuant régulièrement.",
+      "Servir avec du riz."
+    ],
+    "tempsMin": 50,
+    "coutAr": 18000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000100000
+  },
+  {
+    "id": "3",
+    "nom": "Akoho sy voanio",
+    "nomMg": "Akoho sy voanio",
+    "region": "Sakalava",
+    "description": "Le poulet au lait de coco est un plat délicieux et crémeux, originaire de la région sakalava.",
+    "ingredients": [
+      { "nom": "Poulet", "quantite": "1 entier" },
+      { "nom": "Lait de coco", "quantite": "400ml" },
+      { "nom": "Oignon", "quantite": "2" },
+      { "nom": "Ail", "quantite": "3 gousses" },
+      { "nom": "Gingembre", "quantite": "1 morceau" },
+      { "nom": "Curry", "quantite": "1 cuillère à café" },
+      { "nom": "Huile", "quantite": "3 cuillères à soupe" }
+    ],
+    "etapes": [
+      "Couper le poulet en morceaux.",
+      "Faire revenir le poulet dans l'huile avec les oignons, l'ail, le gingembre et le curry.",
+      "Ajouter un peu d'eau et laisser cuire 20 minutes.",
+      "Verser le lait de coco et laisser mijoter 15 minutes.",
+      "Servir chaud avec du riz."
+    ],
+    "tempsMin": 45,
+    "coutAr": 20000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000200000
+  },
+  {
+    "id": "4",
+    "nom": "Kitoza",
+    "nomMg": "Kitoza",
+    "region": "Merina",
+    "description": "Le kitoza est du porc séché et fumé, grillé et servi avec des légumes ou du riz.",
+    "ingredients": [
+      { "nom": "Kitoza (porc séché)", "quantite": "300g" },
+      { "nom": "Tomates", "quantite": "3" },
+      { "nom": "Oignon", "quantite": "2" },
+      { "nom": "Poivron", "quantite": "1" },
+      { "nom": "Huile", "quantite": "2 cuillères à soupe" }
+    ],
+    "etapes": [
+      "Couper le kitoza en tranches.",
+      "Faire griller le kitoza dans une poêle sans ajout de matière grasse.",
+      "Couper les légumes en morceaux.",
+      "Faire revenir les légumes dans l'huile.",
+      "Mélanger le kitoza avec les légumes et servir chaud."
+    ],
+    "tempsMin": 25,
+    "coutAr": 12000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000300000
+  },
+  {
+    "id": "5",
+    "nom": "Lasary",
+    "nomMg": "Lasary",
+    "region": "Betsimisaraka",
+    "description": "Le lasary est une salade de légumes marinés dans du vinaigre, souvent accompagnée de crevettes séchées.",
+    "ingredients": [
+      { "nom": "Chou", "quantite": "1/2" },
+      { "nom": "Carottes", "quantite": "2" },
+      { "nom": "Concombre", "quantite": "1" },
+      { "nom": "Tomates", "quantite": "2" },
+      { "nom": "Vinaigre", "quantite": "100ml" },
+      { "nom": "Huile", "quantite": "3 cuillères à soupe" },
+      { "nom": "Sel et poivre", "quantite": "selon goût" }
+    ],
+    "etapes": [
+      "Couper tous les légumes en fines lamelles.",
+      "Mélanger les légumes dans un saladier.",
+      "Ajouter le vinaigre, l'huile, le sel et le poivre.",
+      "Laisser mariner au frais 30 minutes.",
+      "Servir frais en accompagnement."
+    ],
+    "tempsMin": 35,
+    "coutAr": 8000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000400000
+  },
+  {
+    "id": "6",
+    "nom": "Mofo gasy",
+    "nomMg": "Mofo gasy",
+    "region": "Merina",
+    "description": "Le mofo gasy est une galette de riz fermentée, souvent consommée au petit-déjeuner avec du café.",
+    "ingredients": [
+      { "nom": "Riz", "quantite": "500g" },
+      { "nom": "Levure", "quantite": "10g" },
+      { "nom": "Sucre", "quantite": "100g" },
+      { "nom": "Eau", "quantite": "300ml" },
+      { "nom": "Huile", "quantite": "pour la cuisson" }
+    ],
+    "etapes": [
+      "Faire tremper le riz dans l'eau pendant 24 heures.",
+      "Égoutter et mixer le riz avec un peu d'eau pour obtenir une pâte.",
+      "Ajouter la levure et le sucre, mélanger.",
+      "Laisser fermenter 4 heures.",
+      "Cuire des petites galettes dans une poêle huilée."
+    ],
+    "tempsMin": 1440,
+    "coutAr": 5000,
+    "imageUrl": "",
+    "auteurId": "system",
+    "createdAt": 1700000500000
+  }
+]
