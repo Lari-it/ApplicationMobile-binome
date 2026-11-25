@@ -14,7 +14,32 @@
         <p class="email">{{ user.email }}</p>
       </div>
 
-      <h3 class="kaly-section">Mes favoris ({{ mesFavoris.length }})</h3>
+      <!-- Sélecteur de langue -->
+      <div class="settings-section ion-margin-top">
+        <h3 class="kaly-section">{{ t('profile.language') }}</h3>
+        <ion-list lines="none" class="kaly-carte liste">
+          <ion-item button @click="setLanguage('fr')">
+            <ion-label :color="lang === 'fr' ? 'primary' : ''">Français</ion-label>
+            <ion-icon v-if="lang === 'fr'" :icon="restaurantOutline" slot="end" color="primary" />
+          </ion-item>
+          <ion-item button @click="setLanguage('mg')">
+            <ion-label :color="lang === 'mg' ? 'primary' : ''">Malagasy</ion-label>
+            <ion-icon v-if="lang === 'mg'" :icon="restaurantOutline" slot="end" color="primary" />
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <!-- Lien Calendrier des fêtes -->
+      <div class="settings-section ion-margin-top">
+        <ion-list lines="none" class="kaly-carte liste">
+          <ion-item button router-link="/tabs/fetes">
+            <ion-icon :icon="calendarOutline" slot="start" color="primary" />
+            <ion-label>{{ t('holiday.title') }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <h3 class="kaly-section">{{ t('profile.favorites') }} ({{ mesFavoris.length }})</h3>
       <ion-list v-if="mesFavoris.length > 0" class="kaly-carte liste">
         <ion-item
           v-for="recette in mesFavoris"
@@ -22,15 +47,22 @@
           :router-link="`/recette/${recette.id}`"
           button
         >
-          <ion-icon slot="start" :icon="heart" color="danger" />
-          <ion-label>{{ recette.nom }}</ion-label>
+          <ion-thumbnail slot="start">
+            <img v-if="recette.imageUrl" :src="`${BASE_URL}${recette.imageUrl}`" />
+            <div v-else class="placeholder-thumb"><ion-icon :icon="restaurantOutline" /></div>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ lang === 'mg' ? recette.nomMg : recette.nom }}</h2>
+            <p>{{ recette.region }}</p>
+          </ion-label>
+          <ion-icon :icon="heart" color="danger" slot="end" />
         </ion-item>
       </ion-list>
       <ion-text v-else color="medium">
-        <p>Aucun favori pour le moment.</p>
+        <p>{{ t('recettes.no_results') }}</p>
       </ion-text>
 
-      <h3 class="kaly-section">Mes recettes ({{ mesRecettes.length }})</h3>
+      <h3 class="kaly-section">{{ t('profile.my_recipes') }} ({{ mesRecettes.length }})</h3>
       <div v-if="chargement" class="ion-text-center ion-padding">
         <ion-spinner />
       </div>
@@ -42,13 +74,13 @@
           button
         >
           <ion-label>
-            <h2>{{ recette.nom }}</h2>
+            <h2>{{ lang === 'mg' ? recette.nomMg : recette.nom }}</h2>
             <p>{{ recette.region }} - {{ recette.tempsMin }} min</p>
           </ion-label>
         </ion-item>
       </ion-list>
       <ion-text v-else color="medium">
-        <p>Vous n'avez pas encore publié de recette.</p>
+        <p>{{ t('profile.no_recipes') }}</p>
       </ion-text>
 
       <ion-button
@@ -57,29 +89,31 @@
         @click="seDeconnecter"
       >
         <ion-icon slot="start" :icon="logOutOutline" />
-        Se déconnecter
+        {{ t('profile.logout') }}
       </ion-button>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import {
   IonPage, IonContent,
-  IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonSpinner,
-  useIonRouter, onIonViewWillEnter
+  IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonSpinner, IonThumbnail,
+  useIonRouter
 } from '@ionic/vue';
-import { personCircleOutline, logOutOutline, heart } from 'ionicons/icons';
+import { personCircleOutline, logOutOutline, heart, restaurantOutline, calendarOutline } from 'ionicons/icons';
 import { useAuth } from '@/composables/useAuth';
+import { useFavoris } from '@/composables/useFavoris';
+import { useI18n } from '@/composables/useI18n';
 import api from '@/services/api';
 import type { Recette } from '@/types/recette';
-import { useFavoris } from '@/composables/useFavoris';
 
 const ionRouter = useIonRouter();
 const { user, deconnexion } = useAuth();
-
 const { listeFavoris, charger: chargerFavoris } = useFavoris();
+const { t, lang, setLanguage } = useI18n();
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const toutesRecettes = ref<Recette[]>([]);
 const mesRecettes = computed(() =>
@@ -104,7 +138,7 @@ async function chargerMesRecettes() {
   }
 }
 
-onIonViewWillEnter(chargerMesRecettes);
+onMounted(chargerMesRecettes);
 
 function seDeconnecter() {
   deconnexion();
@@ -113,6 +147,24 @@ function seDeconnecter() {
 </script>
 
 <style scoped>
+.settings-section {
+  margin-bottom: 8px;
+}
+
+.placeholder-thumb {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
+.placeholder-thumb ion-icon {
+  font-size: 24px;
+  color: #999;
+}
+
 .profile-card {
   display: flex;
   flex-direction: column;

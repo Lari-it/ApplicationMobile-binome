@@ -1,16 +1,25 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{ t('common.register') }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
     <ion-content class="ion-padding">
-      <div class="kaly-entete">
-        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
-        <div class="kaly-kicker">Inscription</div>
-        <h2 class="kaly-titre">Bienvenue dans<br /><span class="souligne">la cuisine.</span></h2>
-        <p class="kaly-sous-titre">Crée ton compte pour partager tes recettes.</p>
+      <div v-if="erreur" class="ion-margin-bottom">
+        <ion-alert
+          :is-open="!!erreur"
+          :header="t('common.error')"
+          :message="erreur"
+          :buttons="['OK']"
+          @did-dismiss="erreur = null"
+        />
       </div>
       <ion-input
         v-model="nom"
         type="text"
-        label="Nom"
+        :label="t('common.name')"
         label-placement="floating"
         fill="outline"
         autocomplete="name"
@@ -20,7 +29,7 @@
       <ion-input
         v-model="email"
         type="email"
-        label="Email"
+        :label="t('common.email')"
         label-placement="floating"
         fill="outline"
         autocomplete="email"
@@ -30,7 +39,7 @@
       <ion-input
         v-model="mdp"
         type="password"
-        label="Mot de passe (6 caractères minimum)"
+        :label="t('common.password')"
         label-placement="floating"
         fill="outline"
         autocomplete="new-password"
@@ -40,16 +49,12 @@
       <ion-input
         v-model="mdpConfirm"
         type="password"
-        label="Confirmer le mot de passe"
+        :label="t('common.password') + ' (confirm)'"
         label-placement="floating"
         fill="outline"
         autocomplete="new-password"
         class="kaly-champ ion-margin-bottom"
       />
-
-      <ion-text v-if="erreur" color="danger">
-        <p>{{ erreur }}</p>
-      </ion-text>
 
       <ion-button
         expand="block"
@@ -58,12 +63,12 @@
         @click="sInscrire"
       >
         <ion-spinner v-if="chargement" slot="start" />
-        S'inscrire
+        {{ t('common.register') }}
       </ion-button>
 
       <p class="ion-text-center ion-margin-top">
-        Déjà un compte ?
-        <ion-button router-link="/login" fill="clear" class="kaly-lien">Se connecter</ion-button>
+        {{ t('common.have_account') }}
+        <ion-button router-link="/login" fill="clear" class="kaly-lien">{{ t('common.login') }}</ion-button>
       </p>
     </ion-content>
   </ion-page>
@@ -73,12 +78,14 @@
 import { ref, computed } from 'vue';
 import {
   IonPage, IonContent,
-  IonInput, IonButton, IonSpinner, IonText, useIonRouter
+  IonInput, IonButton, IonSpinner, IonText, IonAlert, useIonRouter, toastController
 } from '@ionic/vue';
 import { useAuth } from '@/composables/useAuth';
+import { useI18n } from '@/composables/useI18n';
 
 const ionRouter = useIonRouter();
 const { inscription } = useAuth();
+const { t } = useI18n();
 
 const nom = ref('');
 const email = ref('');
@@ -102,13 +109,20 @@ async function sInscrire() {
 
   try {
     await inscription(nom.value.trim(), email.value.trim(), mdp.value);
+    const toast = await toastController.create({
+      message: t('common.success'),
+      duration: 1500,
+      position: 'top',
+      color: 'success',
+    });
+    await toast.present();
     ionRouter.navigate('/tabs/recettes', 'root', 'replace');
   } catch (e: unknown) {
     const err = e as { message?: string; details?: Record<string, string> };
     if (err.details && Object.keys(err.details).length > 0) {
       erreur.value = Object.values(err.details).join(' ');
     } else {
-      erreur.value = err.message || "Erreur d'inscription.";
+      erreur.value = err.message || t('common.error');
     }
   } finally {
     chargement.value = false;

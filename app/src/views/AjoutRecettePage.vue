@@ -1,15 +1,24 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{ t('recettes.add_title') }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
     <ion-content class="ion-padding">
-      <div class="kaly-entete">
-        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
-        <div class="kaly-kicker">Nouvelle recette</div>
-        <h2 class="kaly-titre">Partage ta<br /><span class="souligne">recette.</span></h2>
-        <p class="kaly-sous-titre">Elle sera visible par toute la communauté.</p>
+      <div v-if="erreur" class="ion-margin-bottom">
+        <ion-alert
+          :is-open="!!erreur"
+          :header="t('common.error')"
+          :message="erreur"
+          :buttons="['OK']"
+          @did-dismiss="erreur = null"
+        />
       </div>
       <ion-input
         v-model="form.nom"
-        label="Nom (français)"
+        :label="t('common.name') + ' (français)'"
         label-placement="floating"
         fill="outline"
         class="kaly-champ ion-margin-bottom"
@@ -17,7 +26,7 @@
 
       <ion-input
         v-model="form.nomMg"
-        label="Nom (malagasy)"
+        :label="t('common.name') + ' (malagasy)'"
         label-placement="floating"
         fill="outline"
         class="kaly-champ ion-margin-bottom"
@@ -25,7 +34,7 @@
 
       <ion-select
         v-model="form.region"
-        label="Région"
+        :label="t('recettes.region')"
         label-placement="floating"
         fill="outline"
         class="kaly-champ ion-margin-bottom"
@@ -37,7 +46,7 @@
 
       <ion-textarea
         v-model="form.description"
-        label="Description"
+        :label="t('recettes.description')"
         label-placement="floating"
         fill="outline"
         :rows="3"
@@ -45,9 +54,18 @@
       />
 
       <ion-input
+        v-model.number="form.portions"
+        type="number"
+        :label="t('details.portions') + ' par défaut'"
+        label-placement="floating"
+        fill="outline"
+        class="kaly-champ ion-margin-bottom"
+      />
+
+      <ion-input
         v-model.number="form.tempsMin"
         type="number"
-        label="Temps de préparation (minutes)"
+        :label="t('recettes.preparation_time')"
         label-placement="floating"
         fill="outline"
         class="kaly-champ ion-margin-bottom"
@@ -56,42 +74,63 @@
       <ion-input
         v-model.number="form.coutAr"
         type="number"
-        label="Coût estimé (Ar)"
+        :label="t('details.cost') + ' (Ar)'"
         label-placement="floating"
         fill="outline"
         class="kaly-champ ion-margin-bottom"
       />
 
-      <h3>Ingrédients</h3>
-      <div v-for="(ing, index) in form.ingredients" :key="index" class="ligne">
+      <h3>{{ t('details.ingredients') }}</h3>
+      <div v-for="(ing, index) in form.ingredients" :key="index" class="ingredient-card">
+        <div class="ligne">
+          <ion-input
+            v-model="ing.nom"
+            :label="t('common.name')"
+            label-placement="floating"
+            fill="outline"
+            class="kaly-champ"
+          />
+          <ion-button color="danger" fill="clear" @click="retirerIngredient(index)">
+            <ion-icon slot="icon-only" :icon="trashOutline" />
+          </ion-button>
+        </div>
+        <div class="ligne">
+          <ion-input
+            v-model.number="ing.quantiteNum"
+            type="number"
+            :label="t('recettes.quantity_num')"
+            label-placement="floating"
+            fill="outline"
+            class="kaly-champ"
+          />
+          <ion-select
+            v-model="ing.unite"
+            :label="t('recettes.unit')"
+            label-placement="floating"
+            fill="outline"
+            class="kaly-champ"
+          >
+            <ion-select-option v-for="u in unitesSupportees" :key="u" :value="u">{{ u }}</ion-select-option>
+          </ion-select>
+        </div>
         <ion-input
-          v-model="ing.nom"
-          label="Nom"
+          v-model="ing.substituts"
+          :label="t('recettes.substitute_optional')"
           label-placement="floating"
           fill="outline"
-          class="kaly-champ"
+          class="kaly-champ ion-margin-bottom"
         />
-        <ion-input
-          v-model="ing.quantite"
-          label="Quantité"
-          label-placement="floating"
-          fill="outline"
-          class="kaly-champ"
-        />
-        <ion-button color="danger" fill="clear" @click="retirerIngredient(index)">
-          <ion-icon slot="icon-only" :icon="trashOutline" />
-        </ion-button>
       </div>
       <ion-button expand="block" class="kaly-btn-contour" @click="ajouterIngredient">
         <ion-icon slot="start" :icon="addOutline" />
-        Ingrédient
+        {{ t('recettes.add_ingredient') }}
       </ion-button>
 
-      <h3>Étapes</h3>
+      <h3>{{ t('details.steps') }}</h3>
       <div v-for="(etape, index) in form.etapes" :key="index" class="ligne">
         <ion-textarea
           v-model="form.etapes[index]"
-          :label="`Étape ${index + 1}`"
+          :label="t('recettes.step_number') + ' ' + (index + 1)"
           label-placement="floating"
           fill="outline"
           :rows="2"
@@ -103,13 +142,13 @@
       </div>
       <ion-button expand="block" class="kaly-btn-contour" @click="ajouterEtape">
         <ion-icon slot="start" :icon="addOutline" />
-        Étape
+        {{ t('recettes.add_step') }}
       </ion-button>
 
-      <h3>Photo (optionnelle)</h3>
+      <h3>{{ t('recettes.image_optional') }}</h3>
       <ion-button expand="block" class="kaly-btn-contour" @click="choisirImage">
         <ion-icon slot="start" :icon="imageOutline" />
-        {{ imageNom || 'Choisir une photo' }}
+        {{ imageNom || t('recettes.choose_image') }}
       </ion-button>
       <input
         ref="fileInput"
@@ -138,7 +177,7 @@
         @click="sauvegarder"
       >
         <ion-spinner v-if="chargement" slot="start" />
-        {{ chargement ? 'Envoi...' : 'Publier' }}
+        {{ chargement ? t('common.sending') : t('common.save') }}
       </ion-button>
     </ion-content>
   </ion-page>
@@ -147,45 +186,52 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import {
-  IonPage, IonContent,
+  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonInput, IonTextarea, IonSelect, IonSelectOption,
-  IonButton, IonSpinner, IonIcon, IonText, useIonRouter
+  IonButton, IonSpinner, IonIcon, IonText, IonAlert, useIonRouter, toastController
 } from '@ionic/vue';
 import { addOutline, trashOutline, closeOutline, imageOutline } from 'ionicons/icons';
 import api from '@/services/api';
 import { notifierNouvelleRecette } from '@/utils/notif';
-import type { NouvelleRecette } from '@/types/recette';
+import type { NouvelleRecette, Ingredient, Etape } from '@/types/recette';
+import { useI18n } from '@/composables/useI18n';
+import { useOffline } from '@/composables/useOffline';
 
 const TAILLE_MAX = 3 * 1024 * 1024;
 const LARGEUR_MAX = 1080;
 
 const ionRouter = useIonRouter();
+const { t } = useI18n();
+
+const unitesSupportees = ['g', 'kg', 'kapoaka', 'cuillère à soupe', 'cuillère à café', 'verre', 'pièce', 'L', 'ml'];
 
 const regions = ['Merina', 'Betsileo', 'Sakalava', 'Antandroy', 'Betsimisaraka'] as const;
 
-function formulaireVide(): NouvelleRecette {
+function formulaireVide() {
   return {
     nom: '',
     nomMg: '',
     region: 'Merina',
     description: '',
-    ingredients: [{ nom: '', quantite: '' }],
+    portions: 4,
+    ingredients: [{ nom: '', quantite: '', quantiteNum: undefined, unite: '', substituts: '' }],
     etapes: [''],
     tempsMin: 0,
     coutAr: 0,
   };
 }
 
-const form = ref<NouvelleRecette>(formulaireVide());
+const form = ref(formulaireVide());
 const imageFile = ref<File | null>(null);
 const imageNom = ref('');
 const imagePreview = ref('');
 const fileInput = ref<HTMLInputElement | null>(null);
 const chargement = ref(false);
 const erreurs = ref<string[]>([]);
+const erreur = ref<string | null>(null);
 
 function ajouterIngredient() {
-  form.value.ingredients.push({ nom: '', quantite: '' });
+  form.value.ingredients.push({ nom: '', quantite: '', quantiteNum: undefined, unite: '', substituts: '' });
 }
 
 function retirerIngredient(index: number) {
@@ -297,10 +343,10 @@ function valider(): string[] {
     messages.push('La description doit contenir au moins 10 caractères.');
   }
 
-  const ingredientsRemplis = f.ingredients.filter(i => i.nom.trim() || i.quantite.trim());
+  const ingredientsRemplis = f.ingredients.filter(i => i.nom.trim() || i.quantite.trim() || i.quantiteNum);
   if (ingredientsRemplis.length === 0) {
     messages.push('Ajoutez au moins un ingrédient.');
-  } else if (ingredientsRemplis.some(i => !i.nom.trim() || !i.quantite.trim())) {
+  } else if (ingredientsRemplis.some(i => !i.nom.trim() || (!i.quantite.trim() && !i.quantiteNum))) {
     messages.push('Chaque ingrédient doit avoir un nom et une quantité.');
   }
 
@@ -323,24 +369,44 @@ async function sauvegarder() {
 
   chargement.value = true;
 
+  const recetteData: any = {
+    nom: form.value.nom.trim(),
+    nomMg: form.value.nomMg.trim(),
+    region: form.value.region,
+    description: form.value.description.trim(),
+    portions: form.value.portions,
+    ingredients: form.value.ingredients.map(ing => ({
+      nom: ing.nom.trim(),
+      quantite: ing.quantiteNum ? `${ing.quantiteNum} ${ing.unite}` : ing.quantite.trim(),
+      quantiteNum: ing.quantiteNum,
+      unite: ing.unite,
+      substituts: ing.substituts?.trim() || undefined
+    })),
+    etapes: form.value.etapes.map(e => e.trim()).filter(e => e),
+    tempsMin: form.value.tempsMin,
+    coutAr: form.value.coutAr,
+  };
+
+  const { estHorsLigne, ajouterAFileSynchro } = useOffline();
+
+  if (estHorsLigne.value) {
+    ajouterAFileSynchro(recetteData, imageFile.value || undefined);
+    const toast = await toastController.create({
+      message: 'Mode hors ligne : la recette sera envoyée au retour de la connexion.',
+      duration: 3000,
+      color: 'warning',
+      position: 'top'
+    });
+    await toast.present();
+    chargement.value = false;
+    ionRouter.navigate('/tabs/recettes', 'root', 'replace');
+    return;
+  }
+
   try {
-    const recette: NouvelleRecette = {
-      nom: form.value.nom.trim(),
-      nomMg: form.value.nomMg.trim(),
-      region: form.value.region,
-      description: form.value.description.trim(),
-      ingredients: form.value.ingredients
-        .filter(i => i.nom.trim() && i.quantite.trim())
-        .map(i => ({ nom: i.nom.trim(), quantite: i.quantite.trim() })),
-      etapes: form.value.etapes.map(e => e.trim()).filter(e => e),
-      tempsMin: form.value.tempsMin,
-      coutAr: form.value.coutAr,
-    };
-
     const image = imageFile.value ? await reduireImage(imageFile.value) : undefined;
-    await api.ajouterRecette(recette, image);
-    await notifierNouvelleRecette(recette.nom);
-
+    await api.ajouterRecette(recetteData, image);
+    await notifierNouvelleRecette(recetteData.nom);
     reinitialiser();
     ionRouter.navigate('/tabs/recettes', 'root', 'replace');
   } catch (e: unknown) {
@@ -361,6 +427,13 @@ h3 {
   font: 400 19px var(--kaly-font-titre);
   letter-spacing: -0.05em;
   margin: 24px 0 12px 0;
+}
+
+.ingredient-card,
+.etape-card {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
 }
 
 .ligne {

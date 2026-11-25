@@ -7,6 +7,7 @@ const routes = [
   { path: '/login', component: () => import('@/views/LoginPage.vue') },
   { path: '/register', component: () => import('@/views/RegisterPage.vue') },
   { path: '/recette/:id', component: () => import('@/views/RecetteDetailPage.vue') },
+  { path: '/cuisine/:id', component: () => import('@/views/ModeCuisinePage.vue') },
   {
     path: '/tabs/',
     component: TabsPage,
@@ -15,6 +16,9 @@ const routes = [
       { path: 'recettes', component: () => import('@/views/RecettesPage.vue') },
       { path: 'ajouter', component: () => import('@/views/AjoutRecettePage.vue') },
       { path: 'profil', component: () => import('@/views/ProfilPage.vue') },
+      { path: 'courses', component: () => import('@/views/ListeCoursesPage.vue') },
+      { path: 'fetes', component: () => import('@/views/CalendrierFetesPage.vue') },
+      { path: 'recherche-ing', component: () => import('@/views/RechercheIngredientsPage.vue') },
       // Routes existantes conservées
       { path: 'menu', component: () => import('@/views/MenuPage.vue') },
       { path: 'menu/:id', component: () => import('@/views/PlatDetailPage.vue') },
@@ -30,17 +34,16 @@ const router = createRouter({
 });
 
 // Guard d'authentification
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const { estConnecte } = useAuth();
   const publicRoutes = ['/login', '/register'];
   
   if (!estConnecte.value && !publicRoutes.includes(to.path)) {
-    return next('/login');
+    return '/login';
   } else if (estConnecte.value && publicRoutes.includes(to.path)) {
-    return next('/tabs/recettes');
-  } else {
-    return next();
+    return '/tabs/recettes';
   }
+  // Pas besoin de return ou return undefined pour laisser passer
 });
 
 export default router;
