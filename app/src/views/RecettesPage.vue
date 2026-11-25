@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Recettes Malagasy</ion-title>
+        <ion-title>{{ t('recettes.title') }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -11,39 +11,92 @@
         <ion-refresher-content />
       </ion-refresher>
 
+      <!-- Bonus 11: Bandeau Hors Ligne -->
+      <div v-if="estHorsLigne" class="offline-banner">
+        <ion-icon :icon="cloudOfflineOutline" slot="start" />
+        <ion-label>{{ t('offline.banner') }}</ion-label>
+      </div>
+
+      <!-- Bonus 8: Recherche par ingrédients -->
+      <div class="ion-padding-horizontal ion-padding-top">
+        <ion-button expand="block" fill="outline" router-link="/tabs/recherche-ing" size="small">
+          <ion-icon :icon="helpCircleOutline" slot="start" />
+          Qu'est-ce que je cuisine ?
+        </ion-button>
+      </div>
+
       <!-- Barre de recherche -->
       <ion-searchbar
         v-model="recherche"
-        placeholder="Rechercher une recette..."
+        :placeholder="t('recettes.search')"
         class="ion-padding-horizontal"
       />
 
-      <!-- Filtre par région -->
-      <div class="ion-padding-horizontal ion-padding-bottom">
-        <ion-chip
-          :outline="regionChoisie !== null"
-          :color="regionChoisie === null ? 'primary' : undefined"
-          @click="regionChoisie = null"
-        >
-          <ion-label>Toutes</ion-label>
-        </ion-chip>
-        <ion-chip
-          v-for="region in regions"
-          :key="region"
-          :outline="regionChoisie !== region"
-          :color="regionChoisie === region ? 'primary' : undefined"
-          @click="regionChoisie = region"
-        >
-          <ion-label>{{ region }}</ion-label>
-        </ion-chip>
-        <ion-chip
-          :outline="!afficherFavorisSeulement"
-          :color="afficherFavorisSeulement ? 'danger' : undefined"
-          @click="afficherFavorisSeulement = !afficherFavorisSeulement"
-        >
-          <ion-icon :icon="afficherFavorisSeulement ? heart : heartOutlineIcon" slot="start" />
-          <ion-label>Mes favoris</ion-label>
-        </ion-chip>
+      <!-- Filtres -->
+      <div class="filters-container ion-padding-horizontal ion-padding-bottom">
+        <!-- Régions -->
+        <div class="filter-row">
+          <ion-chip
+            :outline="regionChoisie !== null"
+            :color="regionChoisie === null ? 'primary' : undefined"
+            @click="regionChoisie = null"
+          >
+            <ion-label>{{ t('recettes.filter_region') }}</ion-label>
+          </ion-chip>
+          <ion-chip
+            v-for="region in regions"
+            :key="region"
+            :outline="regionChoisie !== region"
+            :color="regionChoisie === region ? 'primary' : undefined"
+            @click="regionChoisie = region"
+          >
+            <ion-label>{{ region }}</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Bonus 3: Budget -->
+        <div class="filter-row">
+          <ion-chip
+            :outline="budgetChoisi !== null"
+            :color="budgetChoisi === null ? 'success' : undefined"
+            @click="budgetChoisi = null"
+          >
+            <ion-label>{{ t('recettes.filter_budget') }}</ion-label>
+          </ion-chip>
+          <ion-chip
+            :outline="budgetChoisi !== 'low'"
+            :color="budgetChoisi === 'low' ? 'success' : undefined"
+            @click="budgetChoisi = 'low'"
+          >
+            <ion-label>{{ t('recettes.budget_low') }}</ion-label>
+          </ion-chip>
+          <ion-chip
+            :outline="budgetChoisi !== 'medium'"
+            :color="budgetChoisi === 'medium' ? 'success' : undefined"
+            @click="budgetChoisi = 'medium'"
+          >
+            <ion-label>{{ t('recettes.budget_medium') }}</ion-label>
+          </ion-chip>
+          <ion-chip
+            :outline="budgetChoisi !== 'high'"
+            :color="budgetChoisi === 'high' ? 'success' : undefined"
+            @click="budgetChoisi = 'high'"
+          >
+            <ion-label>{{ t('recettes.budget_high') }}</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Bonus 2: Favoris -->
+        <div class="filter-row">
+          <ion-chip
+            :outline="!afficherFavorisSeulement"
+            :color="afficherFavorisSeulement ? 'danger' : undefined"
+            @click="afficherFavorisSeulement = !afficherFavorisSeulement"
+          >
+            <ion-icon :icon="afficherFavorisSeulement ? heart : heartOutlineIcon" slot="start" />
+            <ion-label>{{ t('recettes.my_favorites') }}</ion-label>
+          </ion-chip>
+        </div>
       </div>
 
       <!-- Chargement -->
@@ -56,7 +109,7 @@
         <ion-text color="danger">
           <p>{{ erreur }}</p>
         </ion-text>
-        <ion-button expand="block" @click="charger">Réessayer</ion-button>
+        <ion-button expand="block" @click="charger">{{ t('common.error') }}</ion-button>
       </div>
 
       <!-- Liste des recettes -->
@@ -78,8 +131,8 @@
             </div>
           </ion-thumbnail>
           <ion-label>
-            <h2>{{ recette.nom }}</h2>
-            <p v-if="recette.nomMg !== recette.nom" class="nom-mg">{{ recette.nomMg }}</p>
+            <h2>{{ lang === 'mg' ? recette.nomMg : recette.nom }}</h2>
+            <p v-if="lang === 'fr' && recette.nomMg !== recette.nom" class="nom-mg">{{ recette.nomMg }}</p>
             <p>{{ recette.region }} • {{ recette.tempsMin }} min</p>
           </ion-label>
           <div slot="end" class="end-content">
@@ -100,7 +153,7 @@
       <!-- État vide -->
       <div v-else class="ion-padding ion-text-center">
         <ion-text color="medium">
-          <p>Aucune recette trouvée.</p>
+          <p>{{ t('recettes.no_results') }}</p>
         </ion-text>
       </div>
     </ion-content>
@@ -116,16 +169,21 @@ import {
   IonSearchbar, onIonViewWillEnter
 } from '@ionic/vue';
 import type { RefresherCustomEvent } from '@ionic/vue';
-import { restaurantOutline, heart, heartOutline as heartOutlineIcon } from 'ionicons/icons';
+import { restaurantOutline, heart, heartOutline as heartOutlineIcon, helpCircleOutline, cloudOfflineOutline } from 'ionicons/icons';
 import api from '@/services/api';
 import { formatAr } from '@/utils/format';
 import type { Recette } from '@/types/recette';
 import { useFavoris } from '@/composables/useFavoris';
+import { useI18n } from '@/composables/useI18n';
+import { useOffline } from '@/composables/useOffline';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const { estFavori, toggleFavori, listeFavoris } = useFavoris();
+const { t, lang } = useI18n();
+const { estHorsLigne, setCache, getCache } = useOffline();
 
 const regions = ['Merina', 'Betsileo', 'Sakalava', 'Antandroy', 'Betsimisaraka'] as const;
+const budgetChoisi = ref<string | null>(null); // Bonus 3
 const regionChoisie = ref<string | null>(null);
 const recherche = ref('');
 const afficherFavorisSeulement = ref(false);
@@ -141,7 +199,7 @@ function normaliser(str: string): string {
     .toLowerCase();
 }
 
-// Recettes filtrées par région, recherche et favoris
+// Recettes filtrées par région, recherche, favoris et budget
 const recettes = computed(() => {
   let liste = [...toutesRecettes.value];
   
@@ -153,6 +211,17 @@ const recettes = computed(() => {
   // Filtre par favoris
   if (afficherFavorisSeulement.value) {
     liste = liste.filter(r => listeFavoris.value.includes(r.id));
+  }
+
+  // Bonus 3: Filtre par budget
+  if (budgetChoisi.value) {
+    if (budgetChoisi.value === 'low') {
+      liste = liste.filter(r => r.coutAr < 10000);
+    } else if (budgetChoisi.value === 'medium') {
+      liste = liste.filter(r => r.coutAr >= 10000 && r.coutAr <= 20000);
+    } else if (budgetChoisi.value === 'high') {
+      liste = liste.filter(r => r.coutAr > 20000);
+    }
   }
   
   // Filtre par recherche
@@ -171,9 +240,17 @@ async function charger() {
   chargement.value = true;
   erreur.value = null;
   try {
-    toutesRecettes.value = await api.listeRecettes();
+    const data = await api.listeRecettes();
+    toutesRecettes.value = data;
+    setCache(data); // Bonus 11: Mettre à jour le cache
   } catch (e: unknown) {
-    erreur.value = "Impossible de charger les recettes.";
+    // Bonus 11: Tenter de charger le cache si échec réseau
+    const cache = getCache();
+    if (cache && cache.length > 0) {
+      toutesRecettes.value = cache;
+    } else {
+      erreur.value = "Impossible de charger les recettes.";
+    }
     console.error(e);
   } finally {
     chargement.value = false;
@@ -191,6 +268,18 @@ onIonViewWillEnter(charger);
 </script>
 
 <style scoped>
+.offline-banner {
+  background-color: var(--ion-color-warning);
+  color: var(--ion-color-warning-contrast);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
 .recipe-thumbnail {
   margin-right: 12px;
 }
@@ -213,6 +302,18 @@ onIonViewWillEnter(charger);
 .nom-mg {
   font-style: italic;
   color: var(--ion-color-medium-shade);
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .end-content {

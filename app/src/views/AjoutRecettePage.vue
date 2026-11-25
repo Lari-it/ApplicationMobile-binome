@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Ajouter une recette</ion-title>
+        <ion-title>{{ t('recettes.add_title') }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -10,7 +10,7 @@
       <div v-if="erreur" class="ion-margin-bottom">
         <ion-alert
           :is-open="!!erreur"
-          header="Erreur"
+          :header="t('common.error')"
           :message="erreur"
           :buttons="['OK']"
           @did-dismiss="erreur = null"
@@ -18,18 +18,18 @@
       </div>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Nom (français)</ion-label>
+        <ion-label position="floating">{{ t('common.name') }} (français)</ion-label>
         <ion-input v-model="form.nom" required />
       </ion-item>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Nom (malagasy)</ion-label>
+        <ion-label position="floating">{{ t('common.name') }} (malagasy)</ion-label>
         <ion-input v-model="form.nomMg" required />
       </ion-item>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Région</ion-label>
-        <ion-select v-model="form.region" placeholder="Sélectionner une région">
+        <ion-label position="floating">{{ t('recettes.region') }}</ion-label>
+        <ion-select v-model="form.region" :placeholder="t('recettes.filter_region')">
           <ion-select-option value="Merina">Merina</ion-select-option>
           <ion-select-option value="Betsileo">Betsileo</ion-select-option>
           <ion-select-option value="Sakalava">Sakalava</ion-select-option>
@@ -39,59 +39,84 @@
       </ion-item>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Description</ion-label>
+        <ion-label position="floating">{{ t('recettes.description') }}</ion-label>
         <ion-textarea v-model="form.description" :rows="3" required />
       </ion-item>
 
-      <h3>Ingrédients</h3>
-      <div v-for="(ing, index) in form.ingredients" :key="index" class="ingredient-row">
-        <ion-item class="ion-margin-bottom">
-          <ion-label position="floating">Nom</ion-label>
-          <ion-input v-model="ing.nom" />
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">{{ t('details.portions') }} par défaut</ion-label>
+        <ion-input v-model.number="form.portions" type="number" required />
+      </ion-item>
+
+      <h3>{{ t('details.ingredients') }}</h3>
+      <div v-for="(ing, index) in form.ingredients" :key="index" class="ingredient-card ion-padding-bottom">
+        <div class="ingredient-row">
+          <ion-item class="ion-margin-bottom">
+            <ion-label position="floating">{{ t('common.name') }}</ion-label>
+            <ion-input v-model="ing.nom" />
+          </ion-item>
+          <ion-button color="danger" fill="clear" @click="retirerIngredient(index)">
+            <ion-icon slot="icon-only" :icon="trashOutline" />
+          </ion-button>
+        </div>
+        <div class="ingredient-row">
+          <ion-item>
+            <ion-label position="floating">{{ t('recettes.quantity_num') }}</ion-label>
+            <ion-input v-model.number="ing.quantiteNum" type="number" />
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">{{ t('recettes.unit') }}</ion-label>
+            <ion-select v-model="ing.unite">
+              <ion-select-option v-for="u in unitesSupportees" :key="u" :value="u">{{ u }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <ion-item class="ion-margin-top">
+          <ion-label position="floating">{{ t('recettes.substitute_optional') }}</ion-label>
+          <ion-input v-model="ing.substituts" />
         </ion-item>
-        <ion-item class="ion-margin-bottom">
-          <ion-label position="floating">Quantité</ion-label>
-          <ion-input v-model="ing.quantite" />
-        </ion-item>
-        <ion-button color="danger" fill="clear" @click="retirerIngredient(index)">
-          <ion-icon slot="icon-only" :icon="trashOutline" />
-        </ion-button>
       </div>
       <ion-button expand="block" fill="outline" @click="ajouterIngredient">
         <ion-icon slot="start" :icon="addOutline" />
-        Ajouter un ingrédient
+        {{ t('recettes.add_ingredient') }}
       </ion-button>
 
-      <h3>Étapes</h3>
-      <div v-for="(etape, index) in form.etapes" :key="index" class="etape-row">
-        <ion-item class="ion-margin-bottom">
-          <ion-label position="floating">Étape {{ index + 1 }}</ion-label>
-          <ion-textarea v-model="form.etapes[index]" :rows="2" />
+      <h3>{{ t('details.steps') }}</h3>
+      <div v-for="(etape, index) in form.etapes" :key="index" class="etape-card ion-padding-bottom">
+        <div class="etape-row">
+          <ion-item class="ion-margin-bottom">
+            <ion-label position="floating">{{ t('recettes.step_number') }} {{ index + 1 }}</ion-label>
+            <ion-textarea v-model="form.etapes[index].description" :rows="2" />
+          </ion-item>
+          <ion-button color="danger" fill="clear" @click="retirerEtape(index)">
+            <ion-icon slot="icon-only" :icon="trashOutline" />
+          </ion-button>
+        </div>
+        <ion-item>
+          <ion-label position="floating">{{ t('recettes.duration_min') }}</ion-label>
+          <ion-input v-model.number="form.etapes[index].dureeMin" type="number" />
         </ion-item>
-        <ion-button color="danger" fill="clear" @click="retirerEtape(index)">
-          <ion-icon slot="icon-only" :icon="trashOutline" />
-        </ion-button>
       </div>
       <ion-button expand="block" fill="outline" @click="ajouterEtape">
         <ion-icon slot="start" :icon="addOutline" />
-        Ajouter une étape
+        {{ t('recettes.add_step') }}
       </ion-button>
 
-      <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Temps de préparation (minutes)</ion-label>
+      <ion-item class="ion-margin-bottom ion-margin-top">
+        <ion-label position="floating">{{ t('recettes.preparation_time') }}</ion-label>
         <ion-input v-model.number="form.tempsMin" type="number" required />
       </ion-item>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Coût estimé (Ar)</ion-label>
+        <ion-label position="floating">{{ t('details.cost') }} (Ar)</ion-label>
         <ion-input v-model.number="form.coutAr" type="number" required />
       </ion-item>
 
-      <h3>Image (optionnelle)</h3>
+      <h3>{{ t('recettes.image_optional') }}</h3>
       <ion-item class="ion-margin-bottom" button @click="choisirImage">
         <ion-label>
-          <h3>{{ imageNom || 'Choisir une image' }}</h3>
-          <p>Max 3 Mo (JPEG, PNG, GIF, WebP)</p>
+          <h3>{{ imageNom || t('recettes.choose_image') }}</h3>
+          <p>{{ t('recettes.max_size') }}</p>
         </ion-label>
       </ion-item>
       <input
@@ -115,7 +140,7 @@
         @click="sauvegarder"
       >
         <ion-spinner v-if="chargement" slot="start" />
-        Enregistrer la recette
+        {{ t('common.save') }}
       </ion-button>
     </ion-content>
   </ion-page>
@@ -127,22 +152,28 @@ import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonItem, IonLabel, IonInput, IonTextarea, IonSelect, IonSelectOption,
-  IonButton, IonSpinner, IonAlert, IonIcon, IonText
+  IonButton, IonSpinner, IonAlert, IonIcon, IonText, toastController
 } from '@ionic/vue';
 import { addOutline, trashOutline, closeOutline } from 'ionicons/icons';
 import api from '@/services/api';
 import { notifierNouvelleRecette } from '@/utils/notif';
-import type { NouvelleRecette, Ingredient } from '@/types/recette';
+import type { NouvelleRecette, Ingredient, Etape } from '@/types/recette';
+import { useI18n } from '@/composables/useI18n';
+import { useOffline } from '@/composables/useOffline';
 
 const router = useRouter();
+const { t } = useI18n();
 
-const form = ref<NouvelleRecette>({
+const unitesSupportees = ['g', 'kg', 'kapoaka', 'cuillère à soupe', 'cuillère à café', 'verre', 'pièce', 'L', 'ml'];
+
+const form = ref({
   nom: '',
   nomMg: '',
   region: 'Merina',
   description: '',
-  ingredients: [{ nom: '', quantite: '' }],
-  etapes: [''],
+  portions: 4,
+  ingredients: [{ nom: '', quantite: '', quantiteNum: undefined, unite: '', substituts: '' }],
+  etapes: [{ description: '', dureeMin: undefined }],
   tempsMin: 0,
   coutAr: 0,
 });
@@ -156,8 +187,8 @@ const erreur = ref<string | null>(null);
 
 const formulaireValide = computed(() => {
   const f = form.value;
-  const ingredientsValides = f.ingredients.every(ing => ing.nom.trim() && ing.quantite.trim());
-  const etapesValides = f.etapes.every(etape => etape.trim());
+  const ingredientsValides = f.ingredients.every(ing => ing.nom.trim());
+  const etapesValides = f.etapes.every(etape => etape.description.trim());
   return f.nom.trim().length >= 3 &&
          f.nomMg.trim().length >= 2 &&
          f.description.trim().length >= 10 &&
@@ -168,7 +199,7 @@ const formulaireValide = computed(() => {
 });
 
 function ajouterIngredient() {
-  form.value.ingredients.push({ nom: '', quantite: '' });
+  form.value.ingredients.push({ nom: '', quantite: '', quantiteNum: undefined, unite: '', substituts: '' });
 }
 
 function retirerIngredient(index: number) {
@@ -178,7 +209,7 @@ function retirerIngredient(index: number) {
 }
 
 function ajouterEtape() {
-  form.value.etapes.push('');
+  form.value.etapes.push({ description: '', dureeMin: undefined });
 }
 
 function retirerEtape(index: number) {
@@ -224,21 +255,44 @@ async function sauvegarder() {
   chargement.value = true;
   erreur.value = null;
 
-  try {
-    const recetteData: NouvelleRecette = {
-      nom: form.value.nom.trim(),
-      nomMg: form.value.nomMg.trim(),
-      region: form.value.region,
-      description: form.value.description.trim(),
-      ingredients: form.value.ingredients.map(ing => ({
-        nom: ing.nom.trim(),
-        quantite: ing.quantite.trim(),
-      })),
-      etapes: form.value.etapes.map(etape => etape.trim()),
-      tempsMin: form.value.tempsMin,
-      coutAr: form.value.coutAr,
-    };
+  const recetteData: NouvelleRecette = {
+    nom: form.value.nom.trim(),
+    nomMg: form.value.nomMg.trim(),
+    region: form.value.region as any,
+    description: form.value.description.trim(),
+    portions: form.value.portions,
+    ingredients: form.value.ingredients.map(ing => ({
+      nom: ing.nom.trim(),
+      quantite: ing.quantiteNum ? `${ing.quantiteNum} ${ing.unite}` : ing.nom,
+      quantiteNum: ing.quantiteNum,
+      unite: ing.unite,
+      substituts: ing.substituts.trim() || undefined
+    })),
+    etapes: form.value.etapes.map(etape => ({
+      description: etape.description.trim(),
+      dureeMin: etape.dureeMin
+    })),
+    tempsMin: form.value.tempsMin,
+    coutAr: form.value.coutAr,
+  };
 
+  const { estHorsLigne, ajouterAFileSynchro } = useOffline();
+
+  if (estHorsLigne.value) {
+    ajouterAFileSynchro(recetteData, imageFile.value || undefined);
+    const toast = await toastController.create({
+      message: 'Mode hors ligne : la recette sera envoyée au retour de la connexion.',
+      duration: 3000,
+      color: 'warning',
+      position: 'top'
+    });
+    await toast.present();
+    chargement.value = false;
+    router.push('/tabs/recettes');
+    return;
+  }
+
+  try {
     await api.ajouterRecette(recetteData, imageFile.value || undefined);
     
     // Notification locale
@@ -262,6 +316,11 @@ async function sauvegarder() {
 h3 {
   margin: 24px 0 12px 0;
   color: var(--ion-color-primary);
+}
+
+.ingredient-card, .etape-card {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 16px;
 }
 
 .ingredient-row,

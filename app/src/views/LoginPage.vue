@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Connexion</ion-title>
+        <ion-title>{{ t('common.login') }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -10,7 +10,7 @@
       <div v-if="erreur" class="ion-margin-bottom">
         <ion-alert
           :is-open="!!erreur"
-          header="Erreur"
+          :header="t('common.error')"
           :message="erreur"
           :buttons="['OK']"
           @did-dismiss="erreur = null"
@@ -18,7 +18,7 @@
       </div>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Email</ion-label>
+        <ion-label position="floating">{{ t('common.email') }}</ion-label>
         <ion-input
           v-model="email"
           type="email"
@@ -28,7 +28,7 @@
       </ion-item>
 
       <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Mot de passe</ion-label>
+        <ion-label position="floating">{{ t('common.password') }}</ion-label>
         <ion-input
           v-model="mdp"
           type="password"
@@ -43,12 +43,12 @@
         @click="seConnecter"
       >
         <ion-spinner v-if="chargement" slot="start" />
-        Se connecter
+        {{ t('common.login') }}
       </ion-button>
 
       <p class="ion-text-center ion-margin-top">
-        Pas encore de compte ?
-        <ion-button router-link="/register" fill="clear">S'inscrire</ion-button>
+        {{ t('common.no_account') }}
+        <ion-button router-link="/register" fill="clear">{{ t('common.register') }}</ion-button>
       </p>
     </ion-content>
   </ion-page>
@@ -63,9 +63,11 @@ import {
   toastController
 } from '@ionic/vue';
 import { useAuth } from '@/composables/useAuth';
+import { useI18n } from '@/composables/useI18n';
 
 const router = useRouter();
 const { connexion } = useAuth();
+const { t } = useI18n();
 
 const email = ref('');
 const mdp = ref('');
@@ -85,7 +87,7 @@ async function seConnecter() {
   try {
     await connexion(email.value, mdp.value);
     const toast = await toastController.create({
-      message: 'Connexion réussie',
+      message: t('common.success'),
       duration: 1500,
       position: 'top',
       color: 'success',
@@ -95,9 +97,9 @@ async function seConnecter() {
   } catch (e: unknown) {
     const err = e as { message?: string; statut?: number };
     if (err.statut === 401) {
-      erreur.value = 'Email ou mot de passe incorrect.';
+      erreur.value = t('common.error');
     } else {
-      erreur.value = err.message || 'Erreur de connexion.';
+      erreur.value = err.message || t('common.error');
     }
   } finally {
     chargement.value = false;
