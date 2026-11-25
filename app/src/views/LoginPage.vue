@@ -7,35 +7,29 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <div v-if="erreur" class="ion-margin-bottom">
-        <ion-alert
-          :is-open="!!erreur"
-          header="Erreur"
-          :message="erreur"
-          :buttons="['OK']"
-          @did-dismiss="erreur = null"
-        />
-      </div>
+      <ion-input
+        v-model="email"
+        type="email"
+        label="Email"
+        label-placement="floating"
+        fill="outline"
+        autocomplete="email"
+        class="ion-margin-bottom"
+      />
 
-      <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Email</ion-label>
-        <ion-input
-          v-model="email"
-          type="email"
-          autocomplete="email"
-          required
-        />
-      </ion-item>
+      <ion-input
+        v-model="mdp"
+        type="password"
+        label="Mot de passe"
+        label-placement="floating"
+        fill="outline"
+        autocomplete="current-password"
+        class="ion-margin-bottom"
+      />
 
-      <ion-item class="ion-margin-bottom">
-        <ion-label position="floating">Mot de passe</ion-label>
-        <ion-input
-          v-model="mdp"
-          type="password"
-          autocomplete="current-password"
-          required
-        />
-      </ion-item>
+      <ion-text v-if="erreur" color="danger">
+        <p>{{ erreur }}</p>
+      </ion-text>
 
       <ion-button
         expand="block"
@@ -56,15 +50,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonItem, IonLabel, IonInput, IonButton, IonSpinner, IonAlert,
-  toastController
+  IonInput, IonButton, IonSpinner, IonText, useIonRouter
 } from '@ionic/vue';
 import { useAuth } from '@/composables/useAuth';
 
-const router = useRouter();
+const ionRouter = useIonRouter();
 const { connexion } = useAuth();
 
 const email = ref('');
@@ -73,7 +65,7 @@ const chargement = ref(false);
 const erreur = ref<string | null>(null);
 
 const formulaireValide = computed(() => {
-  return email.value.includes('@') && mdp.value.length >= 4;
+  return email.value.trim() !== '' && mdp.value !== '';
 });
 
 async function seConnecter() {
@@ -83,15 +75,8 @@ async function seConnecter() {
   erreur.value = null;
 
   try {
-    await connexion(email.value, mdp.value);
-    const toast = await toastController.create({
-      message: 'Connexion réussie',
-      duration: 1500,
-      position: 'top',
-      color: 'success',
-    });
-    await toast.present();
-    router.push('/tabs/recettes');
+    await connexion(email.value.trim(), mdp.value);
+    ionRouter.navigate('/tabs/recettes', 'root', 'replace');
   } catch (e: unknown) {
     const err = e as { message?: string; statut?: number };
     if (err.statut === 401) {

@@ -1,32 +1,47 @@
 /*
- * Couleurs de l'application (charte ITUniversity).
+ * Couleurs de l'application Recettes Malagasy.
+ * vert (primary), orange (secondary), rouge terre (tertiary)
  * Ionic utilise ces variables dans tous ses composants :
  * <ion-button color="primary">, <ion-badge color="secondary">...
  */
 :root {
-  --ion-color-primary: #222e76;
-  --ion-color-primary-rgb: 34, 46, 118;
+  --ion-color-primary: #2e7d32;
+  --ion-color-primary-rgb: 46, 125, 50;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #1e2868;
-  --ion-color-primary-tint: #384384;
+  --ion-color-primary-shade: #296e2c;
+  --ion-color-primary-tint: #438a47;
 
-  --ion-color-secondary: #76b729;
-  --ion-color-secondary-rgb: 118, 183, 41;
+  --ion-color-secondary: #ef8a17;
+  --ion-color-secondary-rgb: 239, 138, 23;
   --ion-color-secondary-contrast: #000000;
   --ion-color-secondary-contrast-rgb: 0, 0, 0;
-  --ion-color-secondary-shade: #68a124;
-  --ion-color-secondary-tint: #84be3e;
+  --ion-color-secondary-shade: #d27914;
+  --ion-color-secondary-tint: #f1962e;
+
+  --ion-color-tertiary: #a0412d;
+  --ion-color-tertiary-rgb: 160, 65, 45;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #8d3928;
+  --ion-color-tertiary-tint: #aa5442;
 }
 
-/* En mode sombre, le bleu marine est trop foncé : on l'éclaircit */
+/* En mode sombre, le vert est trop fonce : on l'eclaircit */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ion-color-primary: #8f9bea;
-    --ion-color-primary-rgb: 143, 155, 234;
+    --ion-color-primary: #66bb6a;
+    --ion-color-primary-rgb: 102, 187, 106;
     --ion-color-primary-contrast: #000000;
     --ion-color-primary-contrast-rgb: 0, 0, 0;
-    --ion-color-primary-shade: #7e88ce;
-    --ion-color-primary-tint: #9aa5ec;
+    --ion-color-primary-shade: #5aa55d;
+    --ion-color-primary-tint: #75c279;
+
+    --ion-color-tertiary: #d9775f;
+    --ion-color-tertiary-rgb: 217, 119, 95;
+    --ion-color-tertiary-contrast: #000000;
+    --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+    --ion-color-tertiary-shade: #bf6954;
+    --ion-color-tertiary-tint: #dd856f;
   }
 }

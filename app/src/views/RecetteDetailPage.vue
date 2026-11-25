@@ -10,12 +10,10 @@
     </ion-header>
 
     <ion-content>
-      <!-- Chargement -->
       <div v-if="chargement" class="ion-text-center ion-padding">
         <ion-spinner />
       </div>
 
-      <!-- Erreur -->
       <div v-else-if="erreur" class="ion-padding">
         <ion-text color="danger">
           <p>{{ erreur }}</p>
@@ -23,25 +21,30 @@
         <ion-button expand="block" @click="charger">Réessayer</ion-button>
       </div>
 
-      <!-- Détail de la recette -->
       <div v-else-if="recette">
-        <!-- Image -->
-        <div v-if="recette.imageUrl" class="recipe-image">
-          <img :src="`${BASE_URL}${recette.imageUrl}`" :alt="recette.nom" />
+        <div v-if="recette.imageUrl && !imageEnErreur" class="recipe-image">
+          <img
+            :src="`${BASE_URL}${recette.imageUrl}`"
+            :alt="recette.nom"
+            @error="imageEnErreur = true"
+          />
+        </div>
+        <div v-else class="recipe-image recipe-image-vide">
+          <ion-icon :icon="restaurantOutline" />
         </div>
 
         <div class="ion-padding">
-          <div class="header-row">
-            <div class="title-section">
+          <div class="titre-ligne">
+            <div class="titre">
               <h1>{{ recette.nom }}</h1>
-              <h2 v-if="recette.nomMg !== recette.nom" class="ion-text-primary nom-mg">{{ recette.nomMg }}</h2>
+              <h2 v-if="recette.nomMg !== recette.nom" class="nom-mg">{{ recette.nomMg }}</h2>
             </div>
             <ion-button
-              :color="estFavori(recette.id) ? 'danger' : 'medium'"
               fill="clear"
+              :color="estFavori(recette.id) ? 'danger' : 'medium'"
               @click="toggleFavori(recette.id)"
             >
-              <ion-icon :icon="estFavori(recette.id) ? heart : heartOutline" />
+              <ion-icon slot="icon-only" :icon="estFavori(recette.id) ? heart : heartOutline" />
             </ion-button>
           </div>
           <p class="region-badge">{{ recette.region }}</p>
@@ -55,11 +58,22 @@
           <p>{{ recette.description }}</p>
 
           <h3>Ingrédients</h3>
+          <ion-item lines="none" class="portions">
+            <ion-select
+              v-model="portions"
+              label="Portions"
+              interface="popover"
+            >
+              <ion-select-option v-for="n in choixPortions" :key="n" :value="n">
+                {{ n }} pers.
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
           <ion-list>
             <ion-item v-for="(ing, index) in recette.ingredients" :key="index">
               <ion-label>
-                <h3>{{ ing.nom }}</h3>
-                <p>{{ ing.quantite }}</p>
+                <h3 class="ingredient-nom">{{ ing.nom }}</h3>
+                <p>{{ ajusterQuantite(ing.quantite, portions / PORTIONS_BASE) }}</p>
               </ion-label>
             </ion-item>
           </ion-list>
@@ -81,11 +95,12 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonBackButton, IonText, IonButton, IonSpinner, IonList, IonItem, IonLabel, IonIcon
+  IonButtons, IonBackButton, IonText, IonButton, IonSpinner,
+  IonList, IonItem, IonLabel, IonIcon, IonSelect, IonSelectOption
 } from '@ionic/vue';
-import { heart, heartOutline } from 'ionicons/icons';
+import { restaurantOutline, heart, heartOutline } from 'ionicons/icons';
 import api from '@/services/api';
-import { formatAr } from '@/utils/format';
+import { formatAr, ajusterQuantite } from '@/utils/format';
 import type { Recette } from '@/types/recette';
 import { useFavoris } from '@/composables/useFavoris';
 
@@ -96,19 +111,27 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const recette = ref<Recette | null>(null);
 const chargement = ref(true);
 const erreur = ref<string | null>(null);
+const imageEnErreur = ref(false);
+
+// les quantites de base sont prevues pour 4 personnes
+const PORTIONS_BASE = 4;
+const choixPortions = [1, 2, 3, 4, 5, 6, 8, 10];
+const portions = ref(PORTIONS_BASE);
 
 async function charger() {
   chargement.value = true;
+  portions.value = PORTIONS_BASE;
+  imageEnErreur.value = false;
   erreur.value = null;
   try {
     const id = route.params.id as string;
     recette.value = await api.recetteParId(id);
   } catch (e: unknown) {
-    const err = e as { statut?: number; message?: string };
+    const err = e as { statut?: number };
     if (err.statut === 404) {
-      erreur.value = "Recette introuvable.";
+      erreur.value = 'Recette introuvable.';
     } else {
-      erreur.value = "Impossible de charger la recette.";
+      erreur.value = 'Impossible de charger la recette.';
     }
     console.error(e);
   } finally {
@@ -132,10 +155,33 @@ onMounted(charger);
   object-fit: cover;
 }
 
+.recipe-image-vide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08);
+}
+
+.recipe-image-vide ion-icon {
+  font-size: 64px;
+  color: var(--ion-color-medium);
+}
+
+.titre-ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.titre {
+  flex: 1;
+}
+
 .region-badge {
   display: inline-block;
   background-color: var(--ion-color-primary);
-  color: white;
+  color: var(--ion-color-primary-contrast);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 0.9em;
@@ -147,7 +193,7 @@ onMounted(charger);
   gap: 16px;
   margin: 16px 0;
   padding: 12px;
-  background-color: #f5f5f5;
+  background-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08);
   border-radius: 8px;
 }
 
@@ -168,23 +214,23 @@ h2 {
 .nom-mg {
   font-style: italic;
   font-weight: normal;
-}
-
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.title-section {
-  flex: 1;
+  color: var(--ion-color-primary);
 }
 
 h3 {
   font-size: 1.2em;
   margin: 24px 0 12px 0;
   color: var(--ion-color-primary);
+}
+
+.ingredient-nom {
+  margin: 0;
+  font-size: 1em;
+}
+
+.portions {
+  --padding-start: 0;
+  max-width: 220px;
 }
 
 .steps-list {

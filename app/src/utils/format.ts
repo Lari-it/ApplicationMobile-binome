@@ -15,3 +15,13 @@ export function formatDate(iso: string): string {
     timeStyle: 'short',
   });
 }
+
+/** "500 g" avec ratio 2 -> "1000 g" ; "1/2 kg" avec ratio 2 -> "1 kg" ; "un peu" reste "un peu" */
+export function ajusterQuantite(quantite: string, ratio: number): string {
+  const m = quantite.trim().match(/^(\d+(?:[.,]\d+)?)(?:\/(\d+))?(.*)$/);
+  if (!m || ratio === 1) return quantite;
+  let valeur = parseFloat(m[1].replace(',', '.'));
+  if (m[2]) valeur = valeur / parseInt(m[2], 10);
+  const resultat = Math.round(valeur * ratio * 100) / 100;
+  return `${resultat.toLocaleString('fr-FR')}${m[3]}`;
+}

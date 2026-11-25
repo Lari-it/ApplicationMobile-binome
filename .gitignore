@@ -1,0 +1,24 @@
+# Dépendances
+node_modules/
+
+# Build
+app/dist/
+app/android/
+app/ios/
+
+# Configuration locale
+.env
+.env.*
+
+# Données locales de l'API
+api/uploads/
+api/data/users.json
+
+# Guide personnel
+GUIDE.md
+
+# Éditeur et système
+.vscode/
+.idea/
+.DS_Store
+*.log

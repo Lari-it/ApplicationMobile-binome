@@ -123,70 +123,70 @@ Dossiers : `app/src/views/`, `app/src/types/`, `app/src/utils/format.ts`, `app/s
 
 ### Phase 1 : base
 
-- [ ] Créer `types/recette.ts` (copie exacte du contrat)
-- [ ] Créer `utils/format.ts` avec `formatAr(n)` : `15000` donne `15 000 Ar`
-- [ ] Choisir les couleurs de l'application dans `theme/variables.css` (idée : vert, orange, rouge terre)
-- [ ] Créer `TabsPage.vue` avec 3 onglets : Recettes, Ajouter, Profil (icônes Ionicons)
-- [ ] Créer les 7 fichiers de vues avec un contenu minimal (`<ion-page>` et un titre) pour que le router fonctionne dès le début
+- [x] Créer `types/recette.ts` (copie exacte du contrat)
+- [x] Créer `utils/format.ts` avec `formatAr(n)` : `15000` donne `15 000 Ar`
+- [x] Choisir les couleurs de l'application dans `theme/variables.css` (idée : vert, orange, rouge terre)
+- [x] Créer `TabsPage.vue` avec 3 onglets : Recettes, Ajouter, Profil (icônes Ionicons)
+- [x] Créer les 7 fichiers de vues avec un contenu minimal (`<ion-page>` et un titre) pour que le router fonctionne dès le début
 
 **Résultat attendu :** la navigation entre les 3 onglets marche, même avec des pages vides.
 
 ### Phase 2 : écrans d'accès
 
-- [ ] `LoginPage.vue` : champs email et mot de passe, bouton, lien vers Register
-- [ ] Afficher les erreurs (`message` renvoyé par l'API) en rouge
-- [ ] Désactiver le bouton pendant le chargement
-- [ ] `RegisterPage.vue` : mêmes champs plus `nom` et confirmation du mot de passe
-- [ ] Validation côté écran : email non vide, mot de passe d'au moins 6 caractères, confirmation identique
-- [ ] Redirection vers `/tabs/recettes` après succès avec `router.replace`
+- [x] `LoginPage.vue` : champs email et mot de passe, bouton, lien vers Register
+- [x] Afficher les erreurs (`message` renvoyé par l'API) en rouge
+- [x] Désactiver le bouton pendant le chargement
+- [x] `RegisterPage.vue` : mêmes champs plus `nom` et confirmation du mot de passe
+- [x] Validation côté écran : email non vide, mot de passe d'au moins 6 caractères, confirmation identique
+- [x] Redirection vers `/tabs/recettes` après succès avec `router.replace`
 
 **Résultat attendu :** inscription et connexion fonctionnent de bout en bout (dès que A a fini la phase 5).
 
 ### Phase 3 : liste
 
-- [ ] `RecettesPage.vue` : `ion-list` avec une ligne par recette (miniature, nom, région, temps, coût en Ar)
-- [ ] Rangée de filtres par région avec `ion-chip` (Toutes, Merina, Betsileo, Sakalava, Antandroy, Betsimisaraka)
-- [ ] Recharger la liste avec `onIonViewWillEnter` (pour voir la recette ajoutée au retour)
-- [ ] Ajouter `ion-refresher` (tirer pour rafraîchir)
-- [ ] Gérer l'état vide : message « Aucune recette pour cette région »
-- [ ] Gérer le chargement avec `ion-spinner` ou `ion-skeleton-text`
-- [ ] Barre de recherche par nom (`ion-searchbar`, filtre côté client)
+- [x] `RecettesPage.vue` : `ion-list` avec une ligne par recette (miniature, nom, région, temps, coût en Ar)
+- [x] Rangée de filtres par région avec `ion-chip` (Toutes, Merina, Betsileo, Sakalava, Antandroy, Betsimisaraka)
+- [x] Recharger la liste avec `onIonViewWillEnter` (pour voir la recette ajoutée au retour)
+- [x] Ajouter `ion-refresher` (tirer pour rafraîchir)
+- [x] Gérer l'état vide : message « Aucune recette pour cette région »
+- [x] Gérer le chargement avec `ion-spinner` ou `ion-skeleton-text`
+- [x] Barre de recherche par nom (`ion-searchbar`, filtre côté client)
 
 **Résultat attendu :** la liste affiche les 6 recettes, le filtre par région fonctionne.
 
 ### Phase 4 : fiche
 
-- [ ] `RecetteDetailPage.vue` : bouton retour, grande image, nom français et malagasy
-- [ ] Afficher la région, le temps et le coût avec `formatAr`
-- [ ] Liste des ingrédients (quantité et nom)
-- [ ] Étapes numérotées
-- [ ] Gérer le cas « recette introuvable » et le chargement
-- [ ] Image par défaut si `imageUrl` est vide
-- [ ] Bonus : sélecteur de portions qui recalcule les quantités
+- [x] `RecetteDetailPage.vue` : bouton retour, grande image, nom français et malagasy
+- [x] Afficher la région, le temps et le coût avec `formatAr`
+- [x] Liste des ingrédients (quantité et nom)
+- [x] Étapes numérotées
+- [x] Gérer le cas « recette introuvable » et le chargement
+- [x] Image par défaut si `imageUrl` est vide
+- [x] Bonus : sélecteur de portions qui recalcule les quantités
 
 **Résultat attendu :** un clic sur une recette ouvre la fiche complète, le retour ramène à la liste.
 
 ### Phase 5 : formulaire
 
-- [ ] `AjoutRecettePage.vue` : champs nom, nom malagasy, région (select), description, temps, coût
-- [ ] Liste dynamique d'ingrédients : boutons « + Ingrédient » et suppression d'une ligne
-- [ ] Liste dynamique d'étapes : boutons « + Étape » et suppression d'une étape
-- [ ] Choix de la photo (`<input type="file" accept="image/*">`) avec aperçu
-- [ ] Validation : nom, au moins 1 ingrédient, au moins 1 étape, temps et coût positifs
-- [ ] Message d'erreur clair sous le formulaire
-- [ ] Bouton « Publier » désactivé pendant l'envoi (texte « Envoi... »)
-- [ ] Après succès : vider le formulaire et revenir à la liste
-- [ ] Bonus : réduire la taille de l'image avant l'envoi (canvas, largeur max 1080 px)
+- [x] `AjoutRecettePage.vue` : champs nom, nom malagasy, région (select), description, temps, coût
+- [x] Liste dynamique d'ingrédients : boutons « + Ingrédient » et suppression d'une ligne
+- [x] Liste dynamique d'étapes : boutons « + Étape » et suppression d'une étape
+- [x] Choix de la photo (`<input type="file" accept="image/*">`) avec aperçu
+- [x] Validation : nom, au moins 1 ingrédient, au moins 1 étape, temps et coût positifs
+- [x] Message d'erreur clair sous le formulaire
+- [x] Bouton « Publier » désactivé pendant l'envoi (texte « Envoi... »)
+- [x] Après succès : vider le formulaire et revenir à la liste
+- [x] Bonus : réduire la taille de l'image avant l'envoi (canvas, largeur max 1080 px)
 
 **Résultat attendu :** une recette créée avec photo apparaît en haut de la liste.
 
 ### Phase 6 : profil et finitions
 
-- [ ] `ProfilPage.vue` : nom, email, bouton « Se déconnecter » (appelle `deconnexion()` puis `router.replace("/login")`)
-- [ ] Bonus : afficher « Mes recettes » (recettes dont `auteurId` = `user.uid`)
-- [ ] Vérifier l'affichage sur petit écran (360 px de large) et en mode sombre
-- [ ] Choisir une icône et un écran de démarrage (splash) pour l'application
-- [ ] Relire tous les textes (orthographe, français et malagasy)
+- [x] `ProfilPage.vue` : nom, email, bouton « Se déconnecter » (appelle `deconnexion()` puis `router.replace("/login")`)
+- [x] Bonus : afficher « Mes recettes » (recettes dont `auteurId` = `user.uid`)
+- [x] Vérifier l'affichage sur petit écran (360 px de large) et en mode sombre
+- [x] Choisir une icône et un écran de démarrage (splash) pour l'application
+- [x] Relire tous les textes (orthographe, français et malagasy)
 
 **Résultat attendu :** l'application est agréable et cohérente de l'ouverture à la déconnexion.
 
