@@ -1,12 +1,12 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Inscription</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content class="ion-padding">
+      <div class="kaly-entete">
+        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
+        <div class="kaly-kicker">Inscription</div>
+        <h2 class="kaly-titre">Bienvenue dans<br /><span class="souligne">la cuisine.</span></h2>
+        <p class="kaly-sous-titre">Crée ton compte pour partager tes recettes.</p>
+      </div>
       <ion-input
         v-model="nom"
         type="text"
@@ -14,7 +14,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="name"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -24,7 +24,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="email"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -34,7 +34,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="new-password"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -44,7 +44,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="new-password"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-text v-if="erreur" color="danger">
@@ -53,6 +53,7 @@
 
       <ion-button
         expand="block"
+        class="kaly-btn"
         :disabled="chargement || !formulaireValide"
         @click="sInscrire"
       >
@@ -61,8 +62,8 @@
       </ion-button>
 
       <p class="ion-text-center ion-margin-top">
-        Deja un compte ?
-        <ion-button router-link="/login" fill="clear">Se connecter</ion-button>
+        Déjà un compte ?
+        <ion-button router-link="/login" fill="clear" class="kaly-lien">Se connecter</ion-button>
       </p>
     </ion-content>
   </ion-page>
@@ -71,7 +72,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+  IonPage, IonContent,
   IonInput, IonButton, IonSpinner, IonText, useIonRouter
 } from '@ionic/vue';
 import { useAuth } from '@/composables/useAuth';

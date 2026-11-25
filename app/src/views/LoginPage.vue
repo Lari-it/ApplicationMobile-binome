@@ -1,12 +1,12 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Connexion</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content class="ion-padding">
+      <div class="kaly-entete">
+        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
+        <div class="kaly-kicker">Tonga soa!</div>
+        <h2 class="kaly-titre">Content de te<br /><span class="souligne">revoir.</span></h2>
+        <p class="kaly-sous-titre">Connecte-toi pour retrouver tes recettes.</p>
+      </div>
       <ion-input
         v-model="email"
         type="email"
@@ -14,7 +14,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="email"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -24,7 +24,7 @@
         label-placement="floating"
         fill="outline"
         autocomplete="current-password"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-text v-if="erreur" color="danger">
@@ -33,6 +33,7 @@
 
       <ion-button
         expand="block"
+        class="kaly-btn"
         :disabled="chargement || !formulaireValide"
         @click="seConnecter"
       >
@@ -42,7 +43,7 @@
 
       <p class="ion-text-center ion-margin-top">
         Pas encore de compte ?
-        <ion-button router-link="/register" fill="clear">S'inscrire</ion-button>
+        <ion-button router-link="/register" fill="clear" class="kaly-lien">S'inscrire</ion-button>
       </p>
     </ion-content>
   </ion-page>
@@ -51,7 +52,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+  IonPage, IonContent,
   IonInput, IonButton, IonSpinner, IonText, useIonRouter
 } from '@ionic/vue';
 import { useAuth } from '@/composables/useAuth';

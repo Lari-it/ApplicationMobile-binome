@@ -1,18 +1,18 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Ajouter une recette</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content class="ion-padding">
+      <div class="kaly-entete">
+        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
+        <div class="kaly-kicker">Nouvelle recette</div>
+        <h2 class="kaly-titre">Partage ta<br /><span class="souligne">recette.</span></h2>
+        <p class="kaly-sous-titre">Elle sera visible par toute la communauté.</p>
+      </div>
       <ion-input
         v-model="form.nom"
         label="Nom (français)"
         label-placement="floating"
         fill="outline"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -20,7 +20,7 @@
         label="Nom (malagasy)"
         label-placement="floating"
         fill="outline"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-select
@@ -28,7 +28,7 @@
         label="Région"
         label-placement="floating"
         fill="outline"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       >
         <ion-select-option v-for="region in regions" :key="region" :value="region">
           {{ region }}
@@ -41,7 +41,7 @@
         label-placement="floating"
         fill="outline"
         :rows="3"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -50,7 +50,7 @@
         label="Temps de préparation (minutes)"
         label-placement="floating"
         fill="outline"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <ion-input
@@ -59,7 +59,7 @@
         label="Coût estimé (Ar)"
         label-placement="floating"
         fill="outline"
-        class="ion-margin-bottom"
+        class="kaly-champ ion-margin-bottom"
       />
 
       <h3>Ingrédients</h3>
@@ -69,18 +69,20 @@
           label="Nom"
           label-placement="floating"
           fill="outline"
+          class="kaly-champ"
         />
         <ion-input
           v-model="ing.quantite"
           label="Quantité"
           label-placement="floating"
           fill="outline"
+          class="kaly-champ"
         />
         <ion-button color="danger" fill="clear" @click="retirerIngredient(index)">
           <ion-icon slot="icon-only" :icon="trashOutline" />
         </ion-button>
       </div>
-      <ion-button expand="block" fill="outline" @click="ajouterIngredient">
+      <ion-button expand="block" class="kaly-btn-contour" @click="ajouterIngredient">
         <ion-icon slot="start" :icon="addOutline" />
         Ingrédient
       </ion-button>
@@ -93,18 +95,19 @@
           label-placement="floating"
           fill="outline"
           :rows="2"
+          class="kaly-champ"
         />
         <ion-button color="danger" fill="clear" @click="retirerEtape(index)">
           <ion-icon slot="icon-only" :icon="trashOutline" />
         </ion-button>
       </div>
-      <ion-button expand="block" fill="outline" @click="ajouterEtape">
+      <ion-button expand="block" class="kaly-btn-contour" @click="ajouterEtape">
         <ion-icon slot="start" :icon="addOutline" />
         Étape
       </ion-button>
 
       <h3>Photo (optionnelle)</h3>
-      <ion-button expand="block" fill="outline" @click="choisirImage">
+      <ion-button expand="block" class="kaly-btn-contour" @click="choisirImage">
         <ion-icon slot="start" :icon="imageOutline" />
         {{ imageNom || 'Choisir une photo' }}
       </ion-button>
@@ -116,13 +119,13 @@
         @change="onFileChange"
       />
       <div v-if="imagePreview" class="image-preview">
-        <img :src="imagePreview" alt="Apercu" />
+        <img :src="imagePreview" alt="Aperçu" />
         <ion-button color="danger" fill="clear" @click="retirerImage">
           <ion-icon slot="icon-only" :icon="closeOutline" />
         </ion-button>
       </div>
 
-      <div v-if="erreurs.length > 0" class="ion-margin-top">
+      <div v-if="erreurs.length > 0" class="kaly-erreurs ion-margin-top">
         <ion-text color="danger">
           <p v-for="message in erreurs" :key="message">{{ message }}</p>
         </ion-text>
@@ -131,7 +134,7 @@
       <ion-button
         expand="block"
         :disabled="chargement"
-        class="ion-margin-top"
+        class="kaly-btn ion-margin-top"
         @click="sauvegarder"
       >
         <ion-spinner v-if="chargement" slot="start" />
@@ -144,7 +147,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+  IonPage, IonContent,
   IonInput, IonTextarea, IonSelect, IonSelectOption,
   IonButton, IonSpinner, IonIcon, IonText, useIonRouter
 } from '@ionic/vue';
@@ -213,7 +216,7 @@ function onFileChange(event: Event) {
   if (!fichier) return;
 
   if (fichier.size > TAILLE_MAX) {
-    erreurs.value = ["L'image ne doit pas depasser 3 Mo."];
+    erreurs.value = ["L'image ne doit pas dépasser 3 Mo."];
     cible.value = '';
     return;
   }
@@ -355,8 +358,9 @@ async function sauvegarder() {
 
 <style scoped>
 h3 {
+  font: 400 19px var(--kaly-font-titre);
+  letter-spacing: -0.05em;
   margin: 24px 0 12px 0;
-  color: var(--ion-color-primary);
 }
 
 .ligne {
@@ -383,7 +387,8 @@ h3 {
 
 .image-preview img {
   width: 100%;
-  border-radius: 8px;
+  border: 1.3px solid var(--kaly-ink);
+  border-radius: 15px 15px 5px 15px;
 }
 
 .image-preview ion-button {

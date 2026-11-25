@@ -1,47 +1,315 @@
 /*
- * Couleurs de l'application Recettes Malagasy.
- * vert (primary), orange (secondary), rouge terre (tertiary)
- * Ionic utilise ces variables dans tous ses composants :
- * <ion-button color="primary">, <ion-badge color="secondary">...
+ * Design "KALY!" de l'application Recettes Malagasy.
+ * Papier crème, encre noire, rouge, jaune, vert, violet.
+ * Typo : Archivo Black (titres), DM Sans (texte), Space Mono (petites étiquettes).
  */
 :root {
-  --ion-color-primary: #2e7d32;
-  --ion-color-primary-rgb: 46, 125, 50;
+  --kaly-paper: #fff6df;
+  --kaly-card: #fffdf5;
+  --kaly-ink: #201d24;
+  --kaly-on-accent: #201d24;
+  --kaly-red: #f0442f;
+  --kaly-red-dark: #c92e26;
+  --kaly-yellow: #ffd447;
+  --kaly-green: #b5df78;
+  --kaly-purple: #4b2a59;
+  --kaly-blue: #b9d8e6;
+  --kaly-line: rgba(32, 29, 36, 0.19);
+  --kaly-muted: #716a62;
+
+  --kaly-font-titre: 'Archivo Black', 'Arial Black', sans-serif;
+  --kaly-font-mono: 'Space Mono', monospace;
+
+  --ion-font-family: 'DM Sans', Arial, sans-serif;
+  --ion-background-color: var(--kaly-paper);
+  --ion-background-color-rgb: 255, 246, 223;
+  --ion-text-color: var(--kaly-ink);
+  --ion-text-color-rgb: 32, 29, 36;
+  --ion-item-background: transparent;
+  --ion-toolbar-background: var(--kaly-paper);
+  --ion-toolbar-color: var(--kaly-ink);
+  --ion-tab-bar-background: var(--kaly-paper);
+  --ion-tab-bar-color: #777067;
+  --ion-tab-bar-color-selected: var(--kaly-red-dark);
+  --ion-border-color: var(--kaly-line);
+
+  --ion-color-primary: #f0442f;
+  --ion-color-primary-rgb: 240, 68, 47;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #296e2c;
-  --ion-color-primary-tint: #438a47;
+  --ion-color-primary-shade: #d33c29;
+  --ion-color-primary-tint: #f25744;
 
-  --ion-color-secondary: #ef8a17;
-  --ion-color-secondary-rgb: 239, 138, 23;
-  --ion-color-secondary-contrast: #000000;
-  --ion-color-secondary-contrast-rgb: 0, 0, 0;
-  --ion-color-secondary-shade: #d27914;
-  --ion-color-secondary-tint: #f1962e;
+  --ion-color-secondary: #ffd447;
+  --ion-color-secondary-rgb: 255, 212, 71;
+  --ion-color-secondary-contrast: #201d24;
+  --ion-color-secondary-contrast-rgb: 32, 29, 36;
+  --ion-color-secondary-shade: #e0bb3e;
+  --ion-color-secondary-tint: #ffd859;
 
-  --ion-color-tertiary: #a0412d;
-  --ion-color-tertiary-rgb: 160, 65, 45;
+  --ion-color-tertiary: #4b2a59;
+  --ion-color-tertiary-rgb: 75, 42, 89;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #8d3928;
-  --ion-color-tertiary-tint: #aa5442;
+  --ion-color-tertiary-shade: #42254e;
+  --ion-color-tertiary-tint: #5d3f6a;
+
+  --ion-color-success: #b5df78;
+  --ion-color-success-rgb: 181, 223, 120;
+  --ion-color-success-contrast: #201d24;
+  --ion-color-success-contrast-rgb: 32, 29, 36;
+  --ion-color-success-shade: #9fc46a;
+  --ion-color-success-tint: #bce286;
+
+  --ion-color-danger: #c92e26;
+  --ion-color-danger-rgb: 201, 46, 38;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #b12822;
+  --ion-color-danger-tint: #ce433c;
+
+  --ion-color-medium: #716a62;
+  --ion-color-medium-rgb: 113, 106, 98;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #635d56;
+  --ion-color-medium-tint: #7f7972;
 }
 
-/* En mode sombre, le vert est trop fonce : on l'eclaircit */
+/* Mode sombre : même design, papier et encre inversés */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ion-color-primary: #66bb6a;
-    --ion-color-primary-rgb: 102, 187, 106;
-    --ion-color-primary-contrast: #000000;
-    --ion-color-primary-contrast-rgb: 0, 0, 0;
-    --ion-color-primary-shade: #5aa55d;
-    --ion-color-primary-tint: #75c279;
+    --kaly-paper: #1d1a20;
+    --kaly-card: #29252c;
+    --kaly-ink: #fff6df;
+    --kaly-line: rgba(255, 246, 223, 0.2);
+    --kaly-muted: #b3aa9f;
+    --kaly-red-dark: #ff6b57;
+    --kaly-purple: #5d3a6c;
+    --kaly-blue: #34505c;
 
-    --ion-color-tertiary: #d9775f;
-    --ion-color-tertiary-rgb: 217, 119, 95;
-    --ion-color-tertiary-contrast: #000000;
-    --ion-color-tertiary-contrast-rgb: 0, 0, 0;
-    --ion-color-tertiary-shade: #bf6954;
-    --ion-color-tertiary-tint: #dd856f;
+    --ion-background-color: var(--kaly-paper);
+    --ion-background-color-rgb: 29, 26, 32;
+    --ion-text-color: var(--kaly-ink);
+    --ion-text-color-rgb: 255, 246, 223;
+    --ion-item-background: transparent;
+    --ion-toolbar-background: var(--kaly-paper);
+    --ion-toolbar-color: var(--kaly-ink);
+    --ion-tab-bar-background: var(--kaly-paper);
+    --ion-tab-bar-color: #a59d93;
+    --ion-tab-bar-color-selected: var(--kaly-red-dark);
+    --ion-border-color: var(--kaly-line);
+
+    --ion-color-danger: #ff6b57;
+    --ion-color-danger-rgb: 255, 107, 87;
+    --ion-color-danger-contrast: #201d24;
+    --ion-color-danger-contrast-rgb: 32, 29, 36;
+    --ion-color-danger-shade: #e05e4d;
+    --ion-color-danger-tint: #ff7a68;
+
+    --ion-color-medium: #b3aa9f;
+    --ion-color-medium-rgb: 179, 170, 159;
+    --ion-color-medium-contrast: #201d24;
+    --ion-color-medium-contrast-rgb: 32, 29, 36;
+    --ion-color-medium-shade: #9e968c;
+    --ion-color-medium-tint: #bbb3a9;
   }
+}
+
+/* ---------- Éléments Ionic ---------- */
+ion-toolbar {
+  --border-width: 0 0 1.4px 0;
+  --border-color: var(--kaly-ink);
+}
+
+ion-title {
+  font-family: var(--kaly-font-titre);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  font-size: 22px;
+}
+
+ion-tab-bar {
+  border-top: 1.4px solid var(--kaly-ink);
+  height: 64px;
+}
+
+ion-tab-button {
+  font-weight: 700;
+}
+
+ion-input.kaly-champ,
+ion-textarea.kaly-champ,
+ion-select.kaly-champ {
+  --background: var(--kaly-card);
+  --border-color: var(--kaly-ink);
+  --border-radius: 15px;
+  --border-width: 1.3px;
+  --highlight-color-focused: var(--kaly-red-dark);
+  color: var(--kaly-ink);
+}
+
+ion-button.kaly-btn {
+  --background: var(--kaly-yellow);
+  --background-activated: #e0bb3e;
+  --background-hover: #ffd859;
+  --color: var(--kaly-on-accent);
+  --border-radius: 30px;
+  --border-color: var(--kaly-ink);
+  --border-style: solid;
+  --border-width: 1.5px;
+  --box-shadow: 0 3px 0 var(--kaly-ink);
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+  min-height: 46px;
+}
+
+ion-button.kaly-btn-contour {
+  --background: transparent;
+  --color: var(--kaly-ink);
+  --border-radius: 30px;
+  --border-color: var(--kaly-ink);
+  --border-style: solid;
+  --border-width: 1.3px;
+  --box-shadow: none;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+ion-button.kaly-btn-rouge {
+  --background: var(--kaly-red);
+  --color: #ffffff;
+  --border-radius: 30px;
+  --border-color: var(--kaly-ink);
+  --border-style: solid;
+  --border-width: 1.5px;
+  --box-shadow: 0 3px 0 var(--kaly-ink);
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+  min-height: 46px;
+}
+
+ion-button.kaly-lien {
+  --color: var(--kaly-red-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-transform: none;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+/* ---------- Classes communes du design ---------- */
+.kaly-kicker {
+  font: 700 10px var(--kaly-font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--kaly-red-dark);
+}
+
+.kaly-titre {
+  font: 400 34px/0.98 var(--kaly-font-titre);
+  letter-spacing: -0.065em;
+  margin: 8px 0 4px;
+}
+
+.kaly-titre .souligne {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.kaly-titre .souligne::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: -5px;
+  bottom: 1px;
+  height: 10px;
+  background: var(--kaly-yellow);
+  z-index: -1;
+  transform: rotate(-2deg);
+}
+
+.kaly-sous-titre {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--kaly-muted);
+}
+
+.kaly-section {
+  font: 400 21px/0.95 var(--kaly-font-titre);
+  letter-spacing: -0.06em;
+  margin: 23px 0 12px;
+}
+
+.kaly-pastille {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--kaly-yellow);
+  color: var(--kaly-on-accent);
+  border: 1px solid var(--kaly-ink);
+  border-radius: 30px;
+  padding: 7px 10px;
+  font: 700 10px var(--kaly-font-mono);
+}
+
+.kaly-carte {
+  background: var(--kaly-card);
+  border: 1.3px solid var(--kaly-ink);
+  border-radius: 15px 15px 5px 15px;
+}
+
+.kaly-vide {
+  padding: 22px 8px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--kaly-muted);
+}
+
+.kaly-entete {
+  position: relative;
+  padding: calc(env(safe-area-inset-top) + 4px) 0 13px;
+}
+
+.kaly-brand {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 25px/0.8 var(--kaly-font-titre);
+  letter-spacing: -0.08em;
+}
+
+.kaly-brand-mark {
+  width: 26px;
+  height: 26px;
+  background: var(--kaly-red);
+  border-radius: 8px 8px 8px 2px;
+  display: grid;
+  place-items: center;
+  transform: rotate(-7deg);
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+ion-toast.kaly-toast {
+  --background: var(--kaly-ink);
+  --color: var(--kaly-paper);
+  --border-radius: 30px;
+  --width: fit-content;
+  font-weight: 700;
+}
+
+.kaly-erreurs {
+  background: var(--kaly-card);
+  border: 1.3px solid var(--kaly-red-dark);
+  border-radius: 12px;
+  padding: 4px 12px;
+  color: var(--kaly-red-dark);
+  font-size: 13px;
 }

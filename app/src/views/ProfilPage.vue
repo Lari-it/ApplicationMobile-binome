@@ -1,12 +1,11 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Mon profil</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content class="ion-padding">
+      <div class="kaly-entete">
+        <div class="kaly-brand"><span class="kaly-brand-mark">✳</span>KALY!</div>
+        <div class="kaly-kicker">Mon carnet</div>
+        <h2 class="kaly-titre">Salut,<br /><span class="souligne">{{ user?.nom || 'toi' }} !</span></h2>
+      </div>
       <div v-if="user" class="profile-card">
         <div class="avatar">
           <ion-icon :icon="personCircleOutline" />
@@ -15,8 +14,8 @@
         <p class="email">{{ user.email }}</p>
       </div>
 
-      <h3>Mes favoris ({{ mesFavoris.length }})</h3>
-      <ion-list v-if="mesFavoris.length > 0">
+      <h3 class="kaly-section">Mes favoris ({{ mesFavoris.length }})</h3>
+      <ion-list v-if="mesFavoris.length > 0" class="kaly-carte liste">
         <ion-item
           v-for="recette in mesFavoris"
           :key="recette.id"
@@ -31,11 +30,11 @@
         <p>Aucun favori pour le moment.</p>
       </ion-text>
 
-      <h3 class="ion-margin-top">Mes recettes ({{ mesRecettes.length }})</h3>
+      <h3 class="kaly-section">Mes recettes ({{ mesRecettes.length }})</h3>
       <div v-if="chargement" class="ion-text-center ion-padding">
         <ion-spinner />
       </div>
-      <ion-list v-else-if="mesRecettes.length > 0">
+      <ion-list v-else-if="mesRecettes.length > 0" class="kaly-carte liste">
         <ion-item
           v-for="recette in mesRecettes"
           :key="recette.id"
@@ -54,8 +53,7 @@
 
       <ion-button
         expand="block"
-        color="danger"
-        class="ion-margin-top"
+        class="kaly-btn-rouge deconnexion"
         @click="seDeconnecter"
       >
         <ion-icon slot="start" :icon="logOutOutline" />
@@ -68,7 +66,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+  IonPage, IonContent,
   IonButton, IonIcon, IonList, IonItem, IonLabel, IonText, IonSpinner,
   useIonRouter, onIonViewWillEnter
 } from '@ionic/vue';
@@ -119,40 +117,49 @@ function seDeconnecter() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px;
-  background-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.08);
-  border-radius: 16px;
-  margin-bottom: 24px;
+  padding: 24px;
+  background-color: var(--kaly-purple);
+  color: #fff;
+  border: 1.4px solid var(--kaly-ink);
+  border-radius: 7px 20px 20px 20px;
+  margin-bottom: 8px;
+}
+
+.liste {
+  overflow: hidden;
+  padding: 0;
+}
+
+.deconnexion {
+  margin-top: 28px;
 }
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
+  border: 1.7px solid var(--kaly-ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--ion-color-primary);
+  background-color: var(--kaly-green);
   border-radius: 50%;
   margin-bottom: 16px;
 }
 
 .avatar ion-icon {
-  font-size: 64px;
-  color: var(--ion-color-primary-contrast);
+  font-size: 60px;
+  color: var(--kaly-on-accent);
 }
 
-h2 {
-  margin: 0 0 8px 0;
-  font-size: 1.5em;
-}
-
-h3 {
-  margin: 0 0 8px 0;
-  color: var(--ion-color-primary);
+.profile-card h2 {
+  margin: 0 0 6px 0;
+  font: 400 22px var(--kaly-font-titre);
+  letter-spacing: -0.05em;
 }
 
 .email {
   margin: 0;
-  color: var(--ion-color-medium);
+  color: #e8ddeb;
+  font: 11px var(--kaly-font-mono);
 }
 </style>
